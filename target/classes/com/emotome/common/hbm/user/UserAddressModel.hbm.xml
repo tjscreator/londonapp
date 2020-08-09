@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.emotome.common.user.model">
+	<class entity-name="userAddressModel" name="UserAddressModel" table="tbluser"	dynamic-update="true" dynamic-insert="true">
+		<id name="id" column="pkid" type="java.lang.Long">
+			<generator class="identity" />
+		</id>
+		<many-to-one name="userModel" entity-name="lightUserModel" column="fkuserid" lazy="false" fetch="join" not-null="true"/>
+		<property name="address" column="txtaddress" type="java.lang.String" />
+		<many-to-one name="cityModel" entity-name="lightCityModel" column="fkcityid" lazy="false" fetch="join" not-null="true"/>
+		<many-to-one name="stateModel" entity-name="lightStateModel" column="fkstateid" lazy="false" fetch="join" not-null="true"/>
+		<many-to-one name="countryModel" entity-name="lightCountryModel" column="fkcountryid" lazy="false" fetch="join" not-null="true"/>
+		<property name="pincode" column="txtpincode" type="java.lang.String" length="6" />
+	</class>
+</hibernate-mapping>

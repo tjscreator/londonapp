@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.emotome.common.setting.model">
+	<class entity-name="settingModel" name="SettingModel" table="tblsetting" batch-size="50" dynamic-update="true" dynamic-insert="true">
+		<id name="id" column="pkid" type="java.lang.Long">
+			<generator class="identity" />
+		</id>
+		<property name="key" column="txtkey" type="java.lang.String" not-null="true" length="100" />
+		<property name="dataType" column="enumdatatype" type="java.lang.Integer" not-null="true" access="field"/>
+		<property name="value" column="txtvalue" type="java.lang.String" not-null="true" length="1000" />
+	</class>
+</hibernate-mapping>
