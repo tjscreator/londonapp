@@ -1,4 +1,10 @@
-    USE dbharbor;
+CREATE DATABASE dbharbor
+    WITH 
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    CONNECTION LIMIT = -1;
+    
+USE dbharbor;
 
 create table tblcountry (
 	pkid int(10) unsigned not null auto_increment,

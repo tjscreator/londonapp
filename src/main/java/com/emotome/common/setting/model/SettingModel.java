@@ -78,10 +78,6 @@ public class SettingModel extends IdentifierModel {
 		return getValue(SettingConfig.FILE_PATH);
 	}
 
-	public static String getTempFilePath() {
-		return getValue(SettingConfig.TEMP_FILE_PATH);
-	}
-
 	public static String getTwoFactorAuthenticationEnable() {
 		return getValue(SettingConfig.TWO_FACTOR_AUTHENTICATION_ENABLED);
 	}
@@ -102,10 +98,6 @@ public class SettingModel extends IdentifierModel {
 		return getValue(SettingConfig.DEFAULT_TIME_ZONE_ID);
 	}
 
-	public static String getPublicFilePath() {
-		return getValue(SettingConfig.PUBLIC_FILE_PATH);
-	}
-
 	public static String getResetPasswordTokenValidMinutes() {
 		return getValue(SettingConfig.RESET_PASSWORD_SESSION_VALID_MINUTES);
 	}
@@ -124,10 +116,6 @@ public class SettingModel extends IdentifierModel {
 
 	public static String getCaptchaImagePath() {
 		return getValue(SettingConfig.CAPTCHA_IMAGE_PATH);
-	}
-
-	public static String getResetPasswordOTPValidMinutes() {
-		return getValue(SettingConfig.RESET_PASSWORD_OTP_VALID_MINUTES);
 	}
 
 	private static String getValue(String key) {

@@ -522,6 +522,7 @@ public class UserOperationImpl extends AbstractOperation<UserModel, UserView> im
 		UserModel userModel = toModel(new UserModel(), userView);
 		userModel.setVerifyToken(Utility.generateUuid());
 		userService.create(userModel);
+		setPassword(userModel, userView);
 		userModel.addRoleModel(roleService.getByGroup(GroupEnum.END_USER));
 		userService.update(userModel);
 		return CommonResponse.create(ResponseCode.SAVE_SUCCESSFULLY.getCode(),

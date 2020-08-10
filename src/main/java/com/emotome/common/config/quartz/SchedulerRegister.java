@@ -62,16 +62,6 @@ public class SchedulerRegister implements ApplicationRunner {
 				.withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInSeconds(5).repeatForever()).build();
 	}
 
-	public Trigger appointmentSmsReminderCronTrigger() {
-		return TriggerBuilder.newTrigger().withIdentity("AppointmentSmsReminder", "harbor")
-				.withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInMinutes(1).repeatForever()).build();
-	}
-
-	public Trigger appointmentRecordFetchCronTrigger() {
-		return TriggerBuilder.newTrigger().withIdentity("AppointmentRecordFetch", "harbor")
-				.withSchedule(SimpleScheduleBuilder.simpleSchedule().withIntervalInMinutes(3).repeatForever()).build();
-	}
-
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
 
