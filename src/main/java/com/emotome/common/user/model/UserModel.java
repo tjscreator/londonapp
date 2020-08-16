@@ -275,6 +275,14 @@ public class UserModel extends ArchiveModel {
 		this.userRequestedClientModel = userRequestedClientModel;
 	}
 
+	public void addUserAddressModel(UserAddressModel userAddressModel) {
+		this.userAddressModels.add(userAddressModel);
+	}
+
+	public void removeUserAddressModel(UserAddressModel userAddressModel) {
+		this.userAddressModels.remove(userAddressModel);
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

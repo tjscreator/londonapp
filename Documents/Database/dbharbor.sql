@@ -128,7 +128,6 @@ create table tblclient(
   	fkstateid bigint default null,
   	fkcityid bigint default null,
 	txtapikey varchar(30) not null,
-	fktimezoneid bigint not null,
   	fkcreateby bigint default null,
   	datecreate bigint not null,
   	fkupdateby bigint default null,
@@ -152,7 +151,6 @@ create table tblclient(
   	constraint positive_fkcountryid check (fkcountryid > 0),
   	constraint positive_fkstateid check (fkstateid > 0),
   	constraint positive_fkcityid check (fkcityid > 0),
-  	constraint positive_fktimezoneid check (fktimezoneid > 0),
   	constraint foreign_fkcreateby foreign key(fkcreateby) references tbluser(pkid),
   	constraint foreign_fkupdateby foreign key(fkupdateby) references tbluser(pkid),
   	constraint foreign_fkactchangeby foreign key(fkactchangeby) references tbluser(pkid),
@@ -160,7 +158,6 @@ create table tblclient(
   	constraint foreign_fklogoid foreign key(fklogoid) references tblfile(pkid),
   	constraint foreign_fkcountryid foreign key(fkcountryid) references tblcountry(pkid),
   	constraint foreign_fkstateid foreign key(fkstateid) references tblstate(pkid),
-  	constraint foreign_fktimezoneid foreign key(fktimezoneid) references tbltimezone(pkid),
   	constraint foreign_fkcityid foreign key(fkcityid) references tblcity(pkid)
 );
 create index index_tblclient_fkcreateby on tblclient(fkcreateby);
@@ -173,61 +170,7 @@ create index index_tblclient_fklogoid on tblclient(fklogoid);
 create index index_tblclient_fkcountryid on tblclient(fkcountryid);
 create index index_tblclient_fkstateid on tblclient(fkstateid);
 create index index_tblclient_fkcityid on tblclient(fkcityid);
-create index index_tblclient_fktimezoneid on tblclient(fktimezoneid);
 create index index_tblclient_txtapikey on tblclient(txtapikey);
-
-
-create table tblclientbranch(
- 	pkid bigserial not null,
- 	lockversion bigint not null,
-  	txtname varchar(300) not null,
-  	txtcountrycode varchar(4) default null,
-  	txtmobile varchar(15) default null,
-  	fkclientid bigint not null,
-  	txtaddress text default null,
-  	txtpincode varchar(6) default null,
-  	fkcountryid bigint default null,
-  	fkstateid bigint default null,
-  	fkcityid bigint default null,
-	fkcreateby bigint default null,
-  	datecreate bigint not null,
-  	fkupdateby bigint default null,
-  	dateupdate bigint default null,
-  	isactive boolean not null default true,
-  	fkactchangeby bigint default null,
-  	dateactchange bigint default null,
-  	isarchive boolean not null default false,
-  	fkarchiveby bigint default null,
-  	datearchive bigint default null,
-	primary key(pkid),
-  	constraint positive_lockversion check(lockversion >= 0),
-  	constraint positive_fkcreateby check (fkcreateby > 0),
-  	constraint positive_fkupdateby check (fkupdateby > 0),
-  	constraint positive_fkactchangeby check (fkactchangeby > 0),
-  	constraint positive_fkarchiveby check (fkarchiveby > 0),
-  	constraint positive_fkcountryid check (fkcountryid > 0),
-  	constraint positive_fkstateid check (fkstateid > 0),
-  	constraint positive_fkcityid check (fkcityid > 0),
-  	constraint positive_fkclientid check (fkclientid > 0),
-  	constraint foreign_fkcreateby foreign key(fkcreateby) references tbluser(pkid),
-  	constraint foreign_fkupdateby foreign key(fkupdateby) references tbluser(pkid),
-  	constraint foreign_fkactchangeby foreign key(fkactchangeby) references tbluser(pkid),
-  	constraint foreign_fkarchiveby foreign key(fkarchiveby) references tbluser(pkid),
-  	constraint foreign_fkcountryid foreign key(fkcountryid) references tblcountry(pkid),
-  	constraint foreign_fkstateid foreign key(fkstateid) references tblstate(pkid),
-  	constraint foreign_fkclientid foreign key(fkclientid) references tblclient(pkid),
-  	constraint foreign_fkcityid foreign key(fkcityid) references tblcity(pkid)
-);
-create index index_tblclientbranch_fkcreateby on tblclientbranch(fkcreateby);
-create index index_tblclientbranch_fkupdateby on tblclientbranch(fkupdateby);
-create index index_tblclientbranch_fkactchangeby on tblclientbranch(fkactchangeby);
-create index index_tblclientbranch_fkarchiveby on tblclientbranch(fkarchiveby);
-create index index_tblclientbranch_isarchive on tblclientbranch(isarchive);
-create index index_tblclientbranch_isactive on tblclientbranch(isactive);
-create index index_tblclientbranch_fkcountryid on tblclientbranch(fkcountryid);
-create index index_tblclientbranch_fkstateid on tblclientbranch(fkstateid);
-create index index_tblclientbranch_fkclientid on tblclientbranch(fkclientid);
-create index index_tblclientbranch_fkcityid on tblclientbranch(fkcityid);
 
 create table tblgroup(
 	pkid bigserial not null,

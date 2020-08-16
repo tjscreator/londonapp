@@ -27,7 +27,6 @@ import com.emotome.common.validation.InputField;
 import com.emotome.common.validation.RegexEnum;
 import com.emotome.common.validation.Validator;
 import com.emotome.common.view.ArchiveView;
-import com.emotome.common.view.IdNameView;
 import com.emotome.harbor.exception.HarborException;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -58,14 +57,11 @@ public class UserView extends ArchiveView {
 	private Boolean loggedIn;
 	private String shortName;
 	private GroupView groupView;
-	private String pincode;
-	private String address;
 	private String loginId;
 	private Integer otp;
 	private List<ClientView> clientViews;
-	private IdNameView cityView;
-	private IdNameView stateView;
-	private IdNameView countryView;
+	private List<UserAddressView> userAddressViews;
+	private UserAddressView userAddressView;
 
 	public UserView() {
 
@@ -131,6 +127,14 @@ public class UserView extends ArchiveView {
 		return completeProfile;
 	}
 
+	public List<UserAddressView> getUserAddressViews() {
+		return userAddressViews;
+	}
+
+	public void setUserAddressViews(List<UserAddressView> userAddressViews) {
+		this.userAddressViews = userAddressViews;
+	}
+
 	public void setCompleteProfile(Boolean completeProfile) {
 		this.completeProfile = completeProfile;
 	}
@@ -161,14 +165,6 @@ public class UserView extends ArchiveView {
 
 	public void setGroupView(GroupView groupView) {
 		this.groupView = groupView;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
 	}
 
 	public String getLoginId() {
@@ -243,36 +239,12 @@ public class UserView extends ArchiveView {
 		this.clientViews = clientViews;
 	}
 
-	public IdNameView getCityView() {
-		return cityView;
+	public UserAddressView getUserAddressView() {
+		return userAddressView;
 	}
 
-	public void setCityView(IdNameView cityView) {
-		this.cityView = cityView;
-	}
-
-	public IdNameView getStateView() {
-		return stateView;
-	}
-
-	public void setStateView(IdNameView stateView) {
-		this.stateView = stateView;
-	}
-
-	public IdNameView getCountryView() {
-		return countryView;
-	}
-
-	public void setCountryView(IdNameView countryView) {
-		this.countryView = countryView;
-	}
-
-	public String getPincode() {
-		return pincode;
-	}
-
-	public void setPincode(String pincode) {
-		this.pincode = pincode;
+	public void setUserAddressView(UserAddressView userAddressView) {
+		this.userAddressView = userAddressView;
 	}
 
 	public static void isValidRegistrationDetails(UserView userView) throws HarborException {
@@ -299,4 +271,42 @@ public class UserView extends ArchiveView {
 					ResponseCode.PASSWORD_AND_CONFIRM_NOT_MATCH.getMessage());
 		}
 	}
+
+	public static void isValidUpdateDetails(UserView userView) throws HarborException {
+		Validator.USER_NAME
+				.isValid(new InputField(userView.getName(), DataType.STRING, 200, RegexEnum.ALPHABETS_WITH_SPACE));
+		if (!StringUtils.isBlank(userView.getEmail())) {
+			Validator.USER_EMAIL_ID.isValid(new InputField(userView.getEmail(), DataType.STRING, 200, RegexEnum.EMAIL));
+		}
+		if (userView.getUserAddressView() == null) {
+			throw new HarborException(ResponseCode.DATA_IS_MISSING.getCode(),
+					"Address details " + ResponseCode.DATA_IS_MISSING.getMessage());
+		}
+		if (StringUtils.isBlank(userView.getUserAddressView().getAddress())) {
+			throw new HarborException(ResponseCode.DATA_IS_MISSING.getCode(),
+					"Address " + ResponseCode.DATA_IS_MISSING.getMessage());
+		}
+		if (userView.getUserAddressView().getPincode() == null) {
+			throw new HarborException(ResponseCode.DATA_IS_MISSING.getCode(),
+					"Pincode " + ResponseCode.DATA_IS_MISSING.getMessage());
+		}
+		if (userView.getUserAddressView().getCityView() == null || (userView.getUserAddressView().getCityView() != null
+				&& userView.getUserAddressView().getCityView().getId() == null)) {
+			throw new HarborException(ResponseCode.DATA_IS_MISSING.getCode(),
+					"City " + ResponseCode.DATA_IS_MISSING.getMessage());
+		}
+		if (userView.getUserAddressView().getStateView() == null
+				|| (userView.getUserAddressView().getStateView() != null
+						&& userView.getUserAddressView().getStateView().getId() == null)) {
+			throw new HarborException(ResponseCode.DATA_IS_MISSING.getCode(),
+					"State " + ResponseCode.DATA_IS_MISSING.getMessage());
+		}
+		if (userView.getUserAddressView().getCountryView() == null
+				|| (userView.getUserAddressView().getCountryView() != null
+						&& userView.getUserAddressView().getCountryView().getId() == null)) {
+			throw new HarborException(ResponseCode.DATA_IS_MISSING.getCode(),
+					"Country " + ResponseCode.DATA_IS_MISSING.getMessage());
+		}
+	}
+
 }

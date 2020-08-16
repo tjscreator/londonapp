@@ -20,7 +20,6 @@ import com.emotome.common.file.model.FileModel;
 import com.emotome.common.location.model.CityModel;
 import com.emotome.common.location.model.CountryModel;
 import com.emotome.common.location.model.StateModel;
-import com.emotome.common.location.model.TimeZoneModel;
 import com.emotome.common.model.ArchiveModel;
 import com.emotome.common.model.IdentifierModel;
 
@@ -44,7 +43,6 @@ public class ClientModel extends ArchiveModel {
 	private CityModel cityModel;
 	private StateModel stateModel;
 	private CountryModel countryModel;
-	private TimeZoneModel timeZoneModel;
 
 	public String getName() {
 		return name;
@@ -124,14 +122,6 @@ public class ClientModel extends ArchiveModel {
 
 	public void setCountryCode(String countryCode) {
 		this.countryCode = countryCode;
-	}
-
-	public TimeZoneModel getTimeZoneModel() {
-		return timeZoneModel;
-	}
-
-	public void setTimeZoneModel(TimeZoneModel timeZoneModel) {
-		this.timeZoneModel = timeZoneModel;
 	}
 
 	public static ClientView setClientView(ClientModel clientModel) {

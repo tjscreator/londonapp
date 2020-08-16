@@ -19,6 +19,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -52,13 +53,16 @@ import com.emotome.common.sms.service.SmsContentService;
 import com.emotome.common.sms.service.SmsTransactionService;
 import com.emotome.common.threadlocal.Auditor;
 import com.emotome.common.user.enums.GroupEnum;
+import com.emotome.common.user.model.UserAddressModel;
 import com.emotome.common.user.model.UserModel;
 import com.emotome.common.user.model.UserPasswordModel;
 import com.emotome.common.user.model.UserSessionModel;
 import com.emotome.common.user.service.RoleService;
+import com.emotome.common.user.service.UserAddressService;
 import com.emotome.common.user.service.UserPasswordService;
 import com.emotome.common.user.service.UserService;
 import com.emotome.common.user.service.UserSessionService;
+import com.emotome.common.user.view.UserAddressView;
 import com.emotome.common.user.view.UserView;
 import com.emotome.common.util.Constant;
 import com.emotome.common.util.CookieUtility;
@@ -67,6 +71,7 @@ import com.emotome.common.util.HashUtil;
 import com.emotome.common.util.HttpUtil;
 import com.emotome.common.util.Utility;
 import com.emotome.common.util.WebUtil;
+import com.emotome.common.view.IdNameView;
 import com.emotome.harbor.exception.HarborException;
 
 /**
@@ -111,6 +116,9 @@ public class UserOperationImpl extends AbstractOperation<UserModel, UserView> im
 
 	@Autowired
 	private SmsTransactionService smsTransactionService;
+
+	@Autowired
+	private UserAddressService userAddressService;
 
 	@Override
 	public Response doAdd() throws HarborException {
@@ -162,22 +170,29 @@ public class UserOperationImpl extends AbstractOperation<UserModel, UserView> im
 		return userModel;
 	}
 
-	private void ValidPlaceDetails(UserModel userModel, UserView userView) throws HarborException {
-		CityModel cityModel = cityService.get(userView.getCityView().getId());
+	private void setAddressDetails(UserModel userModel, UserView userView) throws HarborException {
+		UserAddressModel userAddressModel = new UserAddressModel();
+		userAddressModel.setAddress(userView.getUserAddressView().getAddress());
+		userAddressModel.setPincode(userView.getUserAddressView().getPincode());
+		CityModel cityModel = cityService.get(userView.getUserAddressView().getCityView().getId());
 		if (cityModel == null) {
 			throw new HarborException(ResponseCode.DATA_IS_INVALID.getCode(),
 					ResponseCode.DATA_IS_INVALID.getMessage());
 		}
-		StateModel stateModel = stateService.get(userView.getStateView().getId());
+		StateModel stateModel = stateService.get(userView.getUserAddressView().getStateView().getId());
 		if (stateModel == null) {
 			throw new HarborException(ResponseCode.DATA_IS_INVALID.getCode(),
 					ResponseCode.DATA_IS_INVALID.getMessage());
 		}
-		CountryModel countryModel = countryService.get(userView.getCountryView().getId());
+		CountryModel countryModel = countryService.get(userView.getUserAddressView().getCountryView().getId());
 		if (countryModel == null) {
 			throw new HarborException(ResponseCode.DATA_IS_INVALID.getCode(),
 					ResponseCode.DATA_IS_INVALID.getMessage());
 		}
+		userAddressModel.setCityModel(cityModel);
+		userAddressModel.setStateModel(stateModel);
+		userAddressModel.setCountryModel(countryModel);
+		userModel.addUserAddressModel(userAddressModel);
 	}
 
 	@Override
@@ -197,7 +212,31 @@ public class UserOperationImpl extends AbstractOperation<UserModel, UserView> im
 				userView.setClientViews(clientViews);
 			}
 		}
+		List<UserAddressModel> userAddressModels = userAddressService.getByUser(userModel.getId());
+		if (userAddressModels != null && !userAddressModels.isEmpty()) {
+			if (userAddressModels.size() == 1) {
+				userView.setUserAddressView(setUserAddressView(userAddressModels.get(0)));
+			} else {
+				List<UserAddressView> userAddressViews = userAddressModels.stream().map(userAddressModel -> {
+					return setUserAddressView(userAddressModel);
+				}).collect(Collectors.toList());
+				userView.setUserAddressViews(userAddressViews);
+			}
+		}
 		return userView;
+	}
+
+	private UserAddressView setUserAddressView(UserAddressModel userAddressModel) {
+		UserAddressView userAddressView = new UserAddressView();
+		userAddressView.setAddress(userAddressModel.getAddress());
+		userAddressView.setPincode(userAddressModel.getPincode());
+		userAddressView.setCityView(
+				new IdNameView(userAddressModel.getCityModel().getId(), userAddressModel.getCityModel().getName()));
+		userAddressView.setStateView(
+				new IdNameView(userAddressModel.getStateModel().getId(), userAddressModel.getStateModel().getName()));
+		userAddressView.setCountryView(new IdNameView(userAddressModel.getCountryModel().getId(),
+				userAddressModel.getCountryModel().getName()));
+		return userAddressView;
 	}
 
 	@Override
@@ -207,11 +246,7 @@ public class UserOperationImpl extends AbstractOperation<UserModel, UserView> im
 
 	@Override
 	public Response doSave(UserView userView) throws HarborException {
-		UserModel userModel = toModel(new UserModel(), userView);
-		ValidPlaceDetails(userModel, userView);
-		userService.create(userModel);
-		return CommonResponse.create(ResponseCode.SAVE_SUCCESSFULLY.getCode(),
-				ResponseCode.SAVE_SUCCESSFULLY.getMessage());
+		return null;
 	}
 
 	@Override
@@ -221,7 +256,7 @@ public class UserOperationImpl extends AbstractOperation<UserModel, UserView> im
 			throw new HarborException(ResponseCode.NO_DATA_FOUND.getCode(), ResponseCode.NO_DATA_FOUND.getMessage());
 		}
 		toModel(userModel, userView);
-		ValidPlaceDetails(userModel, userView);
+		setAddressDetails(userModel, userView);
 		userService.update(userModel);
 		return CommonResponse.create(ResponseCode.UPDATE_SUCCESSFULLY.getCode(),
 				ResponseCode.UPDATE_SUCCESSFULLY.getMessage());
@@ -500,8 +535,8 @@ public class UserOperationImpl extends AbstractOperation<UserModel, UserView> im
 
 	@Override
 	public Response doIsLoggedIn() throws HarborException {
-		// TODO Auto-generated method stub
-		return null;
+		UserView userView = fromModel(Auditor.getAuditor());
+		return ViewResponse.create(ResponseCode.SUCCESSFUL.getCode(), ResponseCode.SUCCESSFUL.getMessage(), userView);
 	}
 
 	@Override

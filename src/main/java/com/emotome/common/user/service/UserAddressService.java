@@ -1,5 +1,9 @@
 package com.emotome.common.user.service;
 
+import java.util.List;
+
+import org.hibernate.Criteria;
+
 import com.emotome.common.service.BaseService;
 import com.emotome.common.user.model.UserAddressModel;
 
@@ -11,4 +15,20 @@ import com.emotome.common.user.model.UserAddressModel;
 public interface UserAddressService extends BaseService<UserAddressModel> {
 
 	String USER_ADDRESS_MODEL = "userAddressModel";
+
+	/**
+	 * this method for set common criteria.
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	Criteria setCommonCriteria(Long userId);
+
+	/**
+	 * this method used to get all address of user.
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	List<UserAddressModel> getByUser(Long userId);
 }

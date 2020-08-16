@@ -52,6 +52,7 @@ public class ClientView extends ArchiveView {
 	private IdNameView stateView;
 	private IdNameView countryView;
 	private UserView userView;
+	private boolean isRegistration;
 
 	public String getName() {
 		return name;
@@ -139,6 +140,14 @@ public class ClientView extends ArchiveView {
 
 	public void setApiKey(String apiKey) {
 		this.apiKey = apiKey;
+	}
+
+	public boolean isRegistration() {
+		return isRegistration;
+	}
+
+	public void setRegistration(boolean isRegistration) {
+		this.isRegistration = isRegistration;
 	}
 
 	public String getShortFormOfName() {

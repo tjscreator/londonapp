@@ -73,6 +73,28 @@ public class UserPrivateControllerImpl extends AbstractController<UserView> impl
 	@Override
 	@AccessLog
 	@Authorization(modules = ModuleEnum.USER, rights = RightsEnum.ADD)
+	public Response view(@RequestParam(name = "id", required = true) Long id) throws HarborException {
+		if (id == null) {
+			throw new HarborException(ResponseCode.INVALID_REQUEST.getCode(),
+					ResponseCode.INVALID_REQUEST.getMessage());
+		}
+		return userOperation.doView(id);
+	}
+
+	@Override
+	@AccessLog
+	@Authorization(modules = ModuleEnum.USER, rights = RightsEnum.UPDATE)
+	public Response edit(@RequestParam(name = "id", required = true) Long id) throws HarborException {
+		if (id == null) {
+			throw new HarborException(ResponseCode.INVALID_REQUEST.getCode(),
+					ResponseCode.INVALID_REQUEST.getMessage());
+		}
+		return userOperation.doEdit(id);
+	}
+
+	@Override
+	@AccessLog
+	@Authorization(modules = ModuleEnum.USER, rights = RightsEnum.ADD)
 	public Response save(@RequestBody UserView userView) throws HarborException {
 		throw new HarborException(ResponseCode.INVALID_REQUEST.getCode(), ResponseCode.INVALID_REQUEST.getMessage());
 	}
@@ -85,22 +107,12 @@ public class UserPrivateControllerImpl extends AbstractController<UserView> impl
 			throw new HarborException(ResponseCode.INVALID_REQUEST.getCode(),
 					ResponseCode.INVALID_REQUEST.getMessage());
 		}
+		UserView.isValidUpdateDetails(userView);
 		return userOperation.doUpdate(userView);
 	}
 
 	@Override
 	public void isValidSaveData(UserView userView) throws HarborException {
-	}
-
-	@Override
-	@AccessLog
-	@Authorization(modules = ModuleEnum.USER, rights = RightsEnum.UPDATE)
-	public Response edit(@RequestParam(name = "id", required = true) Long id) throws HarborException {
-		if (id == null) {
-			throw new HarborException(ResponseCode.INVALID_REQUEST.getCode(),
-					ResponseCode.INVALID_REQUEST.getMessage());
-		}
-		return userOperation.doEdit(id);
 	}
 
 	@Override
