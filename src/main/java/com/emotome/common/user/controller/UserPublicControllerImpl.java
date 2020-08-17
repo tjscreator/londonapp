@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.emotome.common.aop.AccessLog;
 import com.emotome.common.enums.ResponseCode;
@@ -81,5 +82,27 @@ public class UserPublicControllerImpl implements UserPublicController {
 		}
 		UserView.isValidRegistrationDetails(userView);
 		return userOperation.doRegister(userView);
+	}
+
+	@Override
+	@AccessLog
+	public Response sendResetLink(@RequestBody UserView userView) throws HarborException {
+		if (userView == null) {
+			throw new HarborException(ResponseCode.INVALID_REQUEST.getCode(),
+					ResponseCode.INVALID_REQUEST.getMessage());
+		}
+		boolean isLoginThroughEmail = validateLoginDetails(userView);
+		return userOperation.doSendResetLink(userView, isLoginThroughEmail);
+	}
+
+	@Override
+	@AccessLog
+	public Response resetPasswordVerification(@RequestParam("resetPasswordVerification") String token)
+			throws HarborException {
+		if (StringUtils.isBlank(token)) {
+			throw new HarborException(ResponseCode.INVALID_REQUEST.getCode(),
+					ResponseCode.INVALID_REQUEST.getMessage());
+		}
+		return userOperation.doResetPasswordVerification(token);
 	}
 }

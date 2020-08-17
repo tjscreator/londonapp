@@ -118,6 +118,10 @@ public class SettingModel extends IdentifierModel {
 		return getValue(SettingConfig.CAPTCHA_IMAGE_PATH);
 	}
 
+	public static String getWebsiteURL() {
+		return getValue(SettingConfig.WEBSITE_URL);
+	}
+
 	private static String getValue(String key) {
 		return MAP.get(key);
 	}

@@ -204,4 +204,11 @@ public class UserPrivateControllerImpl extends AbstractController<UserView> impl
 		return userOperation.doIsLoggedIn();
 	}
 
+	@Override
+	@AccessLog
+	public Response resetPassword(@RequestBody UserView userView) throws HarborException {
+		validateResetPasswordRequest(userView);
+		return userOperation.doResetPassword(userView);
+	}
+
 }

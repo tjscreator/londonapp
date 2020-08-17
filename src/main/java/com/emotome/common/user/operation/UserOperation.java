@@ -56,23 +56,29 @@ public interface UserOperation extends BaseOperation<UserView> {
 	 * This method is used to send reset password link.
 	 * 
 	 * @param userView
-	 * @param isAdminLogin
+	 * @param isLoginThroughEmail
 	 * @return
 	 * @throws HarborException
 	 */
-	Response doSendResetLink(UserView userView) throws HarborException;
+	Response doSendResetLink(UserView userView, boolean isLoginThroughEmail) throws HarborException;
+
+	/**
+	 * This method validates User's reset password token.
+	 * 
+	 * @param token
+	 * @return
+	 * @throws HarborException
+	 */
+	Response doResetPasswordVerification(String token) throws HarborException;
 
 	/**
 	 * This method is used to reset user's password.
 	 * 
 	 * @param userView
-	 * @param httpServletRequest
-	 * @param httpServletResponse
 	 * @return
 	 * @throws HarborException
 	 */
-	Response doResetPassword(UserView userView, HttpServletRequest httpServletRequest,
-			HttpServletResponse httpServletResponse) throws HarborException;
+	Response doResetPassword(UserView userView) throws HarborException;
 
 	/**
 	 * This method is used to change user's password.
@@ -84,18 +90,6 @@ public interface UserOperation extends BaseOperation<UserView> {
 	 * @throws HarborException
 	 */
 	Response doChangePassword(UserView userView, HttpServletRequest httpServletRequest,
-			HttpServletResponse httpServletResponse) throws HarborException;
-
-	/**
-	 * This method validates User's reset password token.
-	 * 
-	 * @param token
-	 * @param httpServletRequest
-	 * @param httpServletResponse
-	 * @return
-	 * @throws HarborException
-	 */
-	Response doResetPasswordVerification(String token, HttpServletRequest httpServletRequest,
 			HttpServletResponse httpServletResponse) throws HarborException;
 
 	/**

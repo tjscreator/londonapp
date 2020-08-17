@@ -51,6 +51,17 @@ public interface UserPrivateController extends BaseController<UserView> {
 			throws HarborException;
 
 	/**
+	 * This method is used to set a new password.
+	 * 
+	 * @param userView
+	 * @return
+	 * @throws SpaceezAPIException
+	 */
+	@RequestMapping(value = "/reset-password", method = RequestMethod.POST)
+	@ResponseBody
+	Response resetPassword(@RequestBody UserView userView) throws HarborException;
+
+	/**
 	 * This method is used to change user's password.
 	 * 
 	 * @param userView

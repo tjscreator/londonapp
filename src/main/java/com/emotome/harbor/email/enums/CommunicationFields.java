@@ -28,10 +28,9 @@ import com.emotome.common.modelenums.ModelEnum;
  */
 public enum CommunicationFields implements ModelEnum {
 
-	NAME(1, "name"), ACTIVATION_LINK(2, "activationlink"), EMAIL(3, "email"), PASSWORD(4, "password"),
-	USERNAME(5, "username"), OTP(6, "otp"), HOSPITAL_NAME(7, "hospitalname"), DOCTOR_NAME(8, "doctorname"),
-	SHIFT_NAME(9, "shiftname"), DATE(10, "date"), SLOT_TIME(11, "slottime"), TARIFF_NAME(12, "tariffname"),
-	AMOUNT(13, "amount"), INVOICE_NUMBER(14, "invoicenumber"), PATIENT_APP_LINK(15, "patientapplink");
+	NAME(1, "name"), ACTIVATION_LINK(2, "activationlink"), EMAIL(3, "email"), PASSWORD(4, "password"), USER_NAME(5,
+			"username"), OTP(6,
+					"otp"), RESET_PASSWORD_TOKEN(7, "reset_password_token"), URL(8, "url"), CLIENT(9, "client");
 
 	private final Integer id;
 	private final String name;

@@ -15,14 +15,17 @@
  ******************************************************************************/
 package com.emotome.harbor.email.enums;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.commons.lang.text.StrSubstitutor;
 
 import com.emotome.common.email.model.EmailContentModel;
 import com.emotome.common.email.model.TransactionalEmailModel;
 import com.emotome.common.email.service.EmailContentService;
 import com.emotome.common.email.service.TransactionalEmailService;
-import com.emotome.common.model.Model;
+import com.emotome.common.logger.LoggerService;
 import com.emotome.common.modelenums.ModelEnum;
 import com.emotome.common.util.DateUtility;
 
@@ -34,18 +37,59 @@ import com.emotome.common.util.DateUtility;
  */
 public enum CommunicationTriggerEnum implements ModelEnum {
 
-	USER_CREATE(1, "User Create") {
-
+	CLIENT_CREATE_BY_ADMIN(1, "Client create by admin", false) {
 		@Override
-		public void prepareCommunicationDetail(Model model, EmailContentService emailContentService,
-				TransactionalEmailService transactionalEmailService) {
-			// TODO Auto-generated method stub
+		public void prepareCommunicationDetail(Map<String, String> dynamicField,
+				EmailContentService emailContentService, TransactionalEmailService transactionalEmailService) {
+			EmailContentModel emailContentModel = emailContentService.findByTrigger(CLIENT_CREATE_BY_ADMIN.getId());
+			if (emailContentModel == null) {
+				LoggerService.error("Unable to find template for " + CLIENT_CREATE_BY_ADMIN.getName() + " trigger");
+				return;
+			}
 
+			Map<String, String> dynamicFields = new HashMap<String, String>();
+			dynamicFields.put(CommunicationFields.USER_NAME.getName(),
+					dynamicField.get(CommunicationFields.USER_NAME.getName()));
+			dynamicFields.put(CommunicationFields.EMAIL.getName(),
+					dynamicField.get(CommunicationFields.EMAIL.getName()));
+			dynamicFields.put(CommunicationFields.PASSWORD.getName(),
+					dynamicField.get(CommunicationFields.PASSWORD.getName()));
+			dynamicFields.put(CommunicationFields.URL.getName(), dynamicField.get(CommunicationFields.URL.getName()));
+			dynamicFields.put(CommunicationFields.CLIENT.getName(),
+					dynamicField.get(CommunicationFields.CLIENT.getName()));
+
+			StrSubstitutor sub = new StrSubstitutor(dynamicFields);
+			String content = sub.replace(emailContentModel.getContent());
+			emailSingleInsert(content, dynamicField.get(CommunicationFields.EMAIL.getName()), emailContentModel,
+					transactionalEmailService);
+		}
+	},
+	USER_RESET_PASSWORD(2, "Reset password", false) {
+		@Override
+		public void prepareCommunicationDetail(Map<String, String> dynamicField,
+				EmailContentService emailContentService, TransactionalEmailService transactionalEmailService) {
+			EmailContentModel emailContentModel = emailContentService.findByTrigger(USER_RESET_PASSWORD.getId());
+			if (emailContentModel == null) {
+				LoggerService.error("Unable to find template for " + USER_RESET_PASSWORD.getName() + " trigger");
+				return;
+			}
+
+			Map<String, String> dynamicFields = new HashMap<String, String>();
+			dynamicFields.put(CommunicationFields.USER_NAME.getName(),
+					dynamicField.get(CommunicationFields.USER_NAME.getName()));
+			dynamicFields.put(CommunicationFields.URL.getName(),
+					dynamicField.get(CommunicationFields.URL.getName()) + File.separator + "reset-password"
+							+ File.separator + dynamicField.get(CommunicationFields.RESET_PASSWORD_TOKEN.getName()));
+			StrSubstitutor sub = new StrSubstitutor(dynamicFields);
+			String content = sub.replace(emailContentModel.getContent());
+			emailSingleInsert(content, dynamicField.get(CommunicationFields.EMAIL.getName()), emailContentModel,
+					transactionalEmailService);
 		}
 	};
 
 	private final Integer id;
 	private final String name;
+	private final boolean isEditableByClient;
 
 	public static final Map<Integer, CommunicationTriggerEnum> MAP = new HashMap<>();
 
@@ -55,9 +99,10 @@ public enum CommunicationTriggerEnum implements ModelEnum {
 		}
 	}
 
-	CommunicationTriggerEnum(Integer id, String name) {
+	CommunicationTriggerEnum(Integer id, String name, boolean isEditableByClient) {
 		this.id = id;
 		this.name = name;
+		this.isEditableByClient = isEditableByClient;
 	}
 
 	@Override
@@ -74,8 +119,15 @@ public enum CommunicationTriggerEnum implements ModelEnum {
 		return MAP.get(id);
 	}
 
-	public abstract void prepareCommunicationDetail(Model model, EmailContentService emailContentService,
-			TransactionalEmailService transactionalEmailService);
+	/**
+	 * Implemented by all triggers
+	 * 
+	 * @param dynamicField
+	 * @param emailContentService
+	 * @param transactionalEmailService
+	 */
+	public abstract void prepareCommunicationDetail(Map<String, String> dynamicField,
+			EmailContentService emailContentService, TransactionalEmailService transactionalEmailService);
 
 	private static void emailSingleInsert(String Content, String email, EmailContentModel emailContentModel,
 			TransactionalEmailService transactionalEmailService) {
@@ -83,11 +135,16 @@ public enum CommunicationTriggerEnum implements ModelEnum {
 		transactionalEmailModel.setBody(Content);
 		transactionalEmailModel.setEmailAccountId(emailContentModel.getEmailAccountId());
 		transactionalEmailModel.setEmailTo(email);
-		transactionalEmailModel.setStatus(Status.NEW.getId());
+		transactionalEmailModel.setStatus(EmailStatusEnum.NEW.getId());
 		transactionalEmailModel.setSubject(emailContentModel.getSubject());
+		transactionalEmailModel.setEmailCc(emailContentModel.getEmailCc());
 		transactionalEmailModel.setEmailBcc(emailContentModel.getEmailBcc());
 		transactionalEmailModel.setDateSend(DateUtility.getCurrentEpoch());
-		transactionalEmailModel.setActive(true);
 		transactionalEmailService.create(transactionalEmailModel);
 	}
+
+	public boolean isEditableByClient() {
+		return isEditableByClient;
+	}
+
 }

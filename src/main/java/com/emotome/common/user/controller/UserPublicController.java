@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.emotome.common.aop.AccessLog;
@@ -63,4 +64,29 @@ public interface UserPublicController extends Controller {
 	@ResponseBody
 	@AccessLog
 	Response register(@RequestBody UserView userView) throws HarborException;
+
+	/**
+	 * To Get Reset Password link.
+	 * 
+	 * @param userView
+	 * @return
+	 * @throws SpaceezAPIException
+	 */
+	@RequestMapping(value = "/send-reset-link", method = RequestMethod.POST)
+	@ResponseBody
+	@AccessLog
+	Response sendResetLink(@RequestBody UserView userView) throws HarborException;
+
+	/**
+	 * This method is used to reset password token
+	 * 
+	 * @param token
+	 * @param httpServletRequest
+	 * @param httpServletResponse
+	 * @return
+	 * @throws HarborException
+	 */
+	@RequestMapping(value = "/reset-password-verification", method = RequestMethod.GET)
+	@ResponseBody
+	Response resetPasswordVerification(@RequestParam("resetPasswordVerification") String token) throws HarborException;
 }
