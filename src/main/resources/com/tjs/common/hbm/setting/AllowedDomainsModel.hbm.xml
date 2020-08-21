@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.tjs.common.setting.model">
+	<class entity-name="allowedDomainsModel" name="AllowedDomainsModel" table="tblalloweddomain" batch-size="50" dynamic-update="true" dynamic-insert="true">
+		<id name="id" column="pkid" type="java.lang.Long">
+			<generator class="identity" />
+		</id>
+		<property name="domain" column="txtdomain" type="java.lang.String" not-null="true" length="100" />
+	</class>
+</hibernate-mapping>

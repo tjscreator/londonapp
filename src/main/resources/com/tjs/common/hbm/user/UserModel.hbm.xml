@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.tjs.common.user.model">
+	<class entity-name="userModel" name="UserModel" table="tbluser"	dynamic-update="true" dynamic-insert="true">
+		<id name="id" column="pkid" type="java.lang.Long">
+			<generator class="identity" />
+		</id>
+		<version name="lockVersion" column="lockversion" type="long" />
+		<property name="name" column="txtname" type="java.lang.String" not-null="true" length="200" />
+		<property name="email" column="txtemail" type="java.lang.String" not-null="false" length="200" />
+		<property name="countryCode" column="txtcountrycode" type="java.lang.String" not-null="false" length="4" />
+		<property name="mobile" column="txtmobile" type="java.lang.String" not-null="false" length="15" />
+		<property name="verifyToken" column="txtverificationtoken" type="java.lang.String" length="8" not-null="true" />
+		<property name="verifyTokenUsed" column="isverificationtokenused" type="boolean" not-null="true"/>
+		<property name="resetPasswordToken" column="txtresetpasswordtoken" type="java.lang.String" length="64" not-null="false"/>
+		<property name="resetPasswordTokenUsed" column="isresetpasswordtokenused" type="boolean" not-null="true" />
+		<property name="resetPasswordDate" column="dateresetpassword" type="java.lang.Long" not-null="false" />
+		<property name="twofactorToken" column="txttwofactortoken" type="java.lang.String" length="64" not-null="false"/>
+		<property name="twofactorTokenUsed" column="istwofactortokenused" type="boolean" not-null="true" />
+		<property name="twofactorDate" column="datetwofactortoken" type="java.lang.Long" not-null="false" />
+		<property name="hasLoggedIn" column="hasloggedin" type="boolean" not-null="true"/>
+		<property name="otp" column="numotp" type="java.lang.Integer" length="8" not-null="false" />
+		<property name="otpUsed" column="isotpused" type="boolean" not-null="true"/>
+		<property name="sendOtpDate" column="datesendotp" type="java.lang.Long" not-null="false"/>
+		<property name="clientAdmin" column="isclientadmin" type="boolean" not-null="true"/>
+		<property name="masterAdmin" column="ismasteradmin" type="boolean" not-null="true"/>
+		<many-to-one name="profilepic" entity-name="lightFileModel" column="fkprofilepicid" lazy="false" fetch="join" not-null="true" />
+		<set name="roleModels" cascade="none" table="tbluserrole" lazy="false" fetch="join" batch-size="20">
+            <key>
+                <column name="fkuserid" not-null="true" />
+            </key>
+            <many-to-many entity-name="extralightRoleModel" column="fkroleid" />
+        </set>
+        <set name="clientModels" cascade="none" table="tbluserclient" lazy="false" fetch="join" batch-size="20">
+            <key>
+                <column name="fkuserid" not-null="true" />
+            </key>
+            <many-to-many entity-name="lightClientModel" column="fkclientid" />
+        </set>
+		
+		<!-- COMON HBM FIELDS STARTS -->
+		<property name="createDate" column="datecreate" type="java.lang.Long" not-null="true"/>
+		<many-to-one name="createBy" entity-name="extraLightUserModel" column="fkcreateby" lazy="false" fetch="join" />
+		<property name="updateDate" column="dateupdate" type="java.lang.Long" not-null="false"/>
+		<many-to-one name="updateBy" entity-name="extraLightUserModel" column="fkupdateby" lazy="false" fetch="join" />
+		<property name="active" column="isactive" type="boolean" not-null="true"/>
+		<property name="activationDate" column="dateactchange" type="java.lang.Long" not-null="false"/>
+		<many-to-one name="activationChangeBy" entity-name="extraLightUserModel" column="fkactchangeby" lazy="false" fetch="join" />
+		<property name="archive" column="isarchive" type="boolean" not-null="true"/>
+		<property name="archiveDate" column="datearchive" type="java.lang.Long" not-null="false"/>
+		<many-to-one name="archiveBy" entity-name="extraLightUserModel" column="fkarchiveby" lazy="false" fetch="join" />
+		<!-- COMON HBM FIELDS ENDS -->
+	</class>
+	<class entity-name="lightUserModel" name="UserModel" table="tbluser"	dynamic-update="true" dynamic-insert="true">
+		<id name="id" column="pkid" type="java.lang.Long">
+			<generator class="identity" />
+		</id>
+		<property name="name" column="txtname" type="java.lang.String" not-null="true" length="200" />
+		<property name="email" column="txtemail" type="java.lang.String" not-null="false" length="200" />
+		<property name="countryCode" column="txtcountrycode" type="java.lang.String" not-null="false" length="4" />
+		<property name="mobile" column="txtmobile" type="java.lang.String" not-null="false" length="15" />
+		<property name="verifyToken" column="txtverificationtoken" type="java.lang.String" length="8" not-null="true" />
+		<property name="verifyTokenUsed" column="isverificationtokenused" type="boolean" not-null="true"/>
+		<property name="resetPasswordToken" column="txtresetpasswordtoken" type="java.lang.String" length="64" not-null="false"/>
+		<property name="resetPasswordTokenUsed" column="isresetpasswordtokenused" type="boolean" not-null="true" />
+		<property name="resetPasswordDate" column="dateresetpassword" type="java.lang.Long" not-null="false" />
+		<property name="twofactorToken" column="txttwofactortoken" type="java.lang.String" length="64" not-null="false"/>
+		<property name="twofactorTokenUsed" column="istwofactortokenused" type="boolean" not-null="true" />
+		<property name="twofactorDate" column="datetwofactortoken" type="java.lang.Long" not-null="false" />
+		<property name="hasLoggedIn" column="hasloggedin" type="boolean" not-null="true"/>
+		<property name="otp" column="numotp" type="java.lang.Integer" length="8" not-null="false" />
+		<property name="otpUsed" column="isotpused" type="boolean" not-null="true"/>
+		<property name="sendOtpDate" column="datesendotp" type="java.lang.Long" not-null="false"/>
+		<property name="clientAdmin" column="isclientadmin" type="boolean" not-null="true"/>
+		<property name="masterAdmin" column="ismasteradmin" type="boolean" not-null="true"/>
+		<many-to-one name="profilepic" entity-name="lightFileModel" column="fkprofilepicid" lazy="false" fetch="join" not-null="true" />
+		<set name="roleModels" cascade="none" table="tbluserrole" lazy="false" fetch="join" batch-size="20">
+            <key>
+                <column name="fkuserid" not-null="true" />
+            </key>
+            <many-to-many entity-name="extralightRoleModel" column="fkroleid" />
+        </set>
+        <set name="clientModels" cascade="none" table="tbluserclient" lazy="false" fetch="join" batch-size="20">
+            <key>
+                <column name="fkuserid" not-null="true" />
+            </key>
+            <many-to-many entity-name="lightClientModel" column="fkclientid" />
+        </set>
+		
+		<!-- COMON HBM FIELDS STARTS -->
+		<property name="active" column="isactive" type="boolean" not-null="true"/>
+		<property name="archive" column="isarchive" type="boolean" not-null="true"/>
+		<!-- COMON HBM FIELDS ENDS -->
+	</class>
+	<class entity-name="emailMobileUserModel" name="UserModel" table="tbluser"	dynamic-update="true" dynamic-insert="true">
+		<id name="id" column="pkid" type="java.lang.Long">
+			<generator class="identity" />
+		</id>
+		<property name="email" column="txtemail" type="java.lang.String" not-null="false" length="200" />
+		<property name="mobile" column="txtmobile" type="java.lang.String" not-null="false" length="15" />
+	</class>
+</hibernate-mapping>

@@ -1,6 +1,31 @@
-USE dbharbor;
- 
- create table tbluser(
+
+
+create table tblmodule(
+ 	pkid bigserial not null,
+ 	txtname varchar(100) not null,
+ 	primary key (pkid),
+ 	unique(txtname)
+);
+
+create table tblfile (
+ 	pkid bigserial not null,
+ 	txtfileid VARCHAR(64) not null,
+ 	txtname VARCHAR(200) not null,
+ 	fkmoduleid smallint not null,
+ 	dateupload bigint not null,
+ 	ispublic boolean not null default false,
+ 	primary key(pkid),
+ 	unique (txtfileid),
+ 	constraint positive_fkmoduleid check (fkmoduleid > 0),
+ 	constraint positive_pkid check(pkid > 0),
+ 	constraint fk_fkmoduleid foreign key(fkmoduleid) references tblmodule(pkid)
+	
+);
+create index index_tblfile_dateupload on tblfile(dateupload);
+create index index_tblfile_ispublic on tblfile(ispublic);
+create index index_tblfile_fkmoduleid on tblfile(fkmoduleid);
+
+create table tbluser(
 	pkid bigserial not null,
   	lockversion bigint not null,
   	txtname varchar(200) not null,
@@ -16,7 +41,7 @@ USE dbharbor;
   	istwofactortokenused boolean not null default false,
   	datetwofactortoken bigint default null, 
   	hasloggedin boolean not null default false,
-  	numotp bigint(8) null,
+  	numotp bigint null,
   	isotpused boolean not null default false,
 	datesendotp bigint null,
 	isclientadmin boolean not null default false,
@@ -37,7 +62,6 @@ USE dbharbor;
   	unique(txtmobile),
   	unique(txtverificationtoken),
   	unique(txtresetpasswordtoken),
-  	unique(txtverificationotp),
   	constraint positive_pkid check(pkid > 0),
   	constraint positive_lockversion check(lockversion >= 0),
   	constraint positive_fkcreateby check (fkcreateby > 0),
@@ -63,7 +87,6 @@ create index index_tbluser_isarchive on tbluser(isarchive);
 create index index_tbluser_isactive on tbluser(isactive);
 create index index_tbluser_txtemail on tbluser(txtemail);
 create index index_tbluser_txtmobile on tbluser(txtmobile);
-create index index_tbluser_isverificationotpused on tbluser(isverificationotpused);
 create index index_tbluser_hasloggedin on tbluser(hasloggedin);
 create index index_tbluser_isclientadmin on tbluser(isclientadmin);
 create index index_tbluser_ismasteradmin on tbluser(ismasteradmin);
@@ -94,7 +117,7 @@ create index index_tbluseraddress_fkcityid on tbluseraddress(fkcityid);
 create index index_tbluseraddress_fkuserid on tbluseraddress(fkuserid);
  
 create table tbltimezone(
-	pkid bigint not null,
+	pkid bigserial not null,
 	txttimezone varchar(50) not null,
 	primary key(pkid),
 	unique(txttimezone)
@@ -172,12 +195,26 @@ create index index_tblclient_fkstateid on tblclient(fkstateid);
 create index index_tblclient_fkcityid on tblclient(fkcityid);
 create index index_tblclient_txtapikey on tblclient(txtapikey);
 
+create table tblapp(
+ 	pkid smallint not null,
+ 	txtname varchar(100) not null,
+ 	txtfeature text default null,
+ 	primary key (pkid),
+ 	unique(txtname)
+);
+
+insert into tblapp(pkid,txtname) values(1,'Master Admin'),(2,'Client'),(3,'End User');
+
+
 create table tblgroup(
-	pkid bigserial not null,
+	pkid smallint not null,
   	txtname varchar(30) not null,
 	primary key(pkid),
-  	unique(txtname)
+  	unique(txtname),
+  	constraint positive_pkid check(pkid > 0)
 );
+
+insert into tblgroup(pkid,txtname) values(1,'Master Admin'),(2,'Client Admin'),(3,'End User');
 
 
 create table tblrole(
@@ -223,33 +260,33 @@ create index index_tblrole_isarchive on tblrole(isarchive);
 create index index_tblrole_isactive on tblrole(isactive);
 create index index_tblrole_fkgroupid on tblrole(fkgroupid);
 create index index_tblrole_fkappid on tblrole(fkappid);
-
-
-
-create table tblmodule(
- 	pkid bigserial not null,
+create table tblrights(
+ 	pkid smallint not null,
  	txtname varchar(100) not null,
  	primary key (pkid),
- 	unique(txtname)
+ 	unique (txtname),
+ 	constraint positive_pkid check(pkid > 0)
 );
 
-create table tblfile (
- 	pkid bigserial not null,
- 	txtfileid VARCHAR(64) not null,
- 	txtname VARCHAR(200) not null,
- 	fkmoduleid smallint not null,
- 	dateupload bigint not null,
- 	ispublic boolean not null default false,
- 	primary key(pkid),
- 	unique (txtfileid),
- 	constraint positive_fkmoduleid check (fkmoduleid > 0),
- 	constraint positive_pkid check(pkid > 0),
- 	constraint fk_fkmoduleid foreign key(fkmoduleid) references tblmodule(pkid)
-	
+create table tblrolemoduleright(
+	fkroleid bigint not null,
+	fkmoduleid bigint not null,
+	fkrightsid bigint not null,
+	primary key(fkroleid, fkmoduleid, fkrightsid),
+	constraint positive_fkroleid check (fkroleid > 0),
+	constraint positive_fkmoduleid check (fkmoduleid > 0),
+	constraint positive_fkrightsid check (fkrightsid > 0),
+  	constraint foreign_fkroleid foreign key(fkroleid) references tblrole(pkid),
+  	constraint foreign_fkmoduleid foreign key(fkmoduleid) references tblmodule(pkid),
+  	constraint foreign_fkrightsid foreign key(fkrightsid) references tblrights(pkid)
 );
-create index index_tblfile_dateupload on tblfile(dateupload);
-create index index_tblfile_ispublic on tblfile(ispublic);
-create index index_tblfile_fkmoduleid on tblfile(fkmoduleid);
+create index index_tblrolemoduleright_fkroleid on tblrolemoduleright(fkroleid);
+create index index_tblrolemoduleright_fkmoduleid on tblrolemoduleright(fkmoduleid);
+create index index_tblrolemoduleright_fkrightsid on tblrolemoduleright(fkrightsid);
+
+
+
+
 
 create table tblusersession(
 	pkid bigserial not null,
@@ -450,49 +487,6 @@ create index index_tbltransactionemail_enumstatus on tbltransactionemail(enumsta
 create index index_tbltransactionemail_numberretrycount on tbltransactionemail(numberretrycount);
 create index index_tbltransactionemail_datesend on tbltransactionemail(datesend);
 
-create table tblgroup(
-	pkid smallint not null,
-  	txtname varchar(30) not null,
-	primary key(pkid),
-  	unique(txtname),
-  	constraint positive_pkid check(pkid > 0)
-);
-
-insert into tblgroup(pkid,txtname) values(1,'Master Admin'),(2,'Client Admin'),(3,'End User');
-
-create table tblapp(
- 	pkid smallint not null,,
- 	txtname varchar(100) not null,
- 	txtfeature text default null,
- 	primary key (pkid),
- 	unique(txtname)
-);
-
-insert into tblapp(pkid,txtname) values(1,'Master Admin'),(2,'Client'),(3,'End User');
-
-create table tblrights(
- 	pkid smallint not null,
- 	txtname varchar(100) not null,
- 	primary key (pkid),
- 	unique (txtname),
- 	constraint positive_pkid check(pkid > 0)
-);
-
-create table tblrolemoduleright(
-	fkroleid bigint not null,
-	fkmoduleid bigint not null,
-	fkrightsid bigint not null,
-	primary key(fkroleid, fkmoduleid, fkrightsid),
-	constraint positive_fkroleid check (fkroleid > 0),
-	constraint positive_fkmoduleid check (fkmoduleid > 0),
-	constraint positive_fkrightsid check (fkrightsid > 0),
-  	constraint foreign_fkroleid foreign key(fkroleid) references tblrole(pkid),
-  	constraint foreign_fkmoduleid foreign key(fkmoduleid) references tblmodule(pkid),
-  	constraint foreign_fkrightsid foreign key(fkrightsid) references tblrights(pkid)
-);
-create index index_tblrolemoduleright_fkroleid on tblrolemoduleright(fkroleid);
-create index index_tblrolemoduleright_fkmoduleid on tblrolemoduleright(fkmoduleid);
-create index index_tblrolemoduleright_fkrightsid on tblrolemoduleright(fkrightsid);
 
 create table tbluserrole(
 	fkuserid bigint not null,

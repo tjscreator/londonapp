@@ -2,9 +2,9 @@ Manifest-Version: 1.0
 Implementation-Title: harbor
 Implementation-Version: 1.0.0
 Built-By: jaydip.golviya
-Implementation-Vendor-Id: com.emotome
+Implementation-Vendor-Id: com.tjs
 Build-Jdk: 1.8.0_221
 Implementation-URL: http://maven.apache.org
 Created-By: Maven Integration for Eclipse
-Main-Class: com.emotome.harbor.startup.HarborApplication
+Main-Class: com.tjs.harbor.startup.HarborApplication
 

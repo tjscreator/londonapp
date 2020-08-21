@@ -3,7 +3,7 @@
 	<property name="app.name" value="${ant.project.name}"/>
     <property name="env" environment="env" value=""/>
     <property name="project.dir" value="."/>
-	<property name="tomcat.dir" value="E:\Apache Software Foundation\webapps"/>
+	<property name="tomcat.dir" value="D:\Tomcat\apache-tomcat-8.5.50\webapps"/>
 	
     <target name="BUILD-PROJECT">
     	<exec dir="." executable="cmd">

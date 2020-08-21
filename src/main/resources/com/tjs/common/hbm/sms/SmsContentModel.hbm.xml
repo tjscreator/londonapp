@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.tjs.common.sms.model">
+    <class entity-name="smsContentModel" name="SmsContentModel" table="tblsmscontent" dynamic-update="true" dynamic-insert="true">
+        <id name="id" column="pkId" type="java.lang.Long" length="10">
+            <generator class="identity"/>
+        </id>
+        <version name="lockVersion" column="lockversion" type="long" />
+        <property name="smsaccountid" column="fksmsaccountid" type="java.lang.Long" not-null="true"/>
+        <property name="subject" column="txtsubject" type="java.lang.String" not-null="true" length="1000" />
+        <property name="content" column="txtcontent" type="java.lang.String" not-null="true" />
+        <property name="triggerId" column="fktriggerid" type="java.lang.Integer" not-null="true" access="field"/>
+			<!-- COMON HBM FIELDS STARTS -->
+		<property name="archive" column="isarchive" type="boolean" />
+		<property name="archiveDate" column="datearchive" type="java.lang.Long" />
+		<many-to-one name="archiveBy" entity-name="extraLightUserModel" column="fkarchiveby" lazy="false" fetch="join" />
+		<property name="active" column="isactive" type="boolean" />
+		<property name="activationDate" column="dateactchange" type="java.lang.Long" />
+		<many-to-one name="activationChangeBy" entity-name="extraLightUserModel" column="fkactchangeby" lazy="false" fetch="join" />
+		<property name="updateDate" column="dateupdate" type="java.lang.Long" />
+		<many-to-one name="updateBy" entity-name="extraLightUserModel" column="fkupdateby" lazy="false" fetch="join" />
+		<property name="createDate" column="datecreate" type="java.lang.Long" />
+		<many-to-one name="createBy" entity-name="extraLightUserModel" column="fkcreateby" lazy="false" fetch="join" />
+		<!-- COMON HBM FIELDS ENDS -->
+    </class>
+    <class entity-name="lightSmsContentModel" name="SmsContentModel" table="tblsmscontent" dynamic-update="true" dynamic-insert="true">
+        <id name="id" column="pkId" type="java.lang.Long" length="10">
+            <generator class="identity"/>
+        </id>
+        <property name="smsaccountid" column="fksmsaccountid" type="java.lang.Long" not-null="true"/>
+        <property name="subject" column="txtsubject" type="java.lang.String" not-null="true" length="1000" />
+        <property name="content" column="txtcontent" type="java.lang.String" not-null="true" />
+        <property name="triggerId" column="fktriggerid" type="java.lang.Integer" not-null="true" access="field"/>
+			<!-- COMON HBM FIELDS STARTS -->
+		<property name="archive" column="isarchive" type="boolean" />
+		<property name="active" column="isactive" type="boolean" />
+		<!-- COMON HBM FIELDS ENDS -->
+    </class>
+</hibernate-mapping>
