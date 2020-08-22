@@ -51,14 +51,14 @@ public class EmailContentControllerImpl extends AbstractController<EmailContentV
 
 	@Override
 	@AccessLog
-	@Authorization(modules = ModuleEnum.COMMUNICATION, rights = RightsEnum.ADD)
+	@Authorization(modules = ModuleEnum.EMAIL, rights = RightsEnum.ADD)
 	public Response add() throws HarborException {
 		return CommonResponse.create(ResponseCode.SUCCESSFUL.getCode(), ResponseCode.SUCCESSFUL.getMessage());
 	}
 
 	@Override
 	@AccessLog
-	@Authorization(modules = ModuleEnum.COMMUNICATION, rights = RightsEnum.ADD)
+	@Authorization(modules = ModuleEnum.EMAIL, rights = RightsEnum.ADD)
 	public Response save(@RequestBody EmailContentView emailContentView) throws HarborException {
 		if (emailContentView == null) {
 			throw new HarborException(ResponseCode.INVALID_REQUEST.getCode(), ResponseCode.INVALID_REQUEST.getMessage());
@@ -69,7 +69,7 @@ public class EmailContentControllerImpl extends AbstractController<EmailContentV
 
 	@Override
 	@AccessLog
-	@Authorization(modules = ModuleEnum.COMMUNICATION, rights = RightsEnum.VIEW)
+	@Authorization(modules = ModuleEnum.EMAIL, rights = RightsEnum.VIEW)
 	public Response view(@RequestParam(name = "id") Long id) throws HarborException {
 		if (id == null) {
 			throw new HarborException(ResponseCode.INVALID_REQUEST.getCode(), ResponseCode.INVALID_REQUEST.getMessage());
@@ -79,7 +79,7 @@ public class EmailContentControllerImpl extends AbstractController<EmailContentV
 
 	@Override
 	@AccessLog
-	@Authorization(modules = ModuleEnum.COMMUNICATION, rights = RightsEnum.UPDATE)
+	@Authorization(modules = ModuleEnum.EMAIL, rights = RightsEnum.UPDATE)
 	public Response edit(@RequestParam(name = "id") Long id) throws HarborException {
 		if (id == null) {
 			throw new HarborException(ResponseCode.INVALID_REQUEST.getCode(), ResponseCode.INVALID_REQUEST.getMessage());
@@ -89,7 +89,7 @@ public class EmailContentControllerImpl extends AbstractController<EmailContentV
 
 	@Override
 	@AccessLog
-	@Authorization(modules = ModuleEnum.COMMUNICATION, rights = RightsEnum.UPDATE)
+	@Authorization(modules = ModuleEnum.EMAIL, rights = RightsEnum.UPDATE)
 	public Response update(@RequestBody EmailContentView emailContentView) throws HarborException {
 		if (emailContentView == null) {
 			throw new HarborException(ResponseCode.INVALID_REQUEST.getCode(), ResponseCode.INVALID_REQUEST.getMessage());
@@ -100,7 +100,7 @@ public class EmailContentControllerImpl extends AbstractController<EmailContentV
 
 	@Override
 	@AccessLog
-	@Authorization(modules = ModuleEnum.COMMUNICATION, rights = RightsEnum.DELETE)
+	@Authorization(modules = ModuleEnum.EMAIL, rights = RightsEnum.DELETE)
 	public Response delete(@RequestParam(name = "id") Long id) throws HarborException {
 		if (id == null) {
 			throw new HarborException(ResponseCode.INVALID_REQUEST.getCode(), ResponseCode.INVALID_REQUEST.getMessage());
@@ -110,7 +110,7 @@ public class EmailContentControllerImpl extends AbstractController<EmailContentV
 
 	@Override
 	@AccessLog
-	@Authorization(modules = ModuleEnum.COMMUNICATION, rights = RightsEnum.UPDATE)
+	@Authorization(modules = ModuleEnum.EMAIL, rights = RightsEnum.UPDATE)
 	public Response activeInActive(@RequestParam(name = "id") Long id) throws HarborException {
 		if (id == null) {
 			throw new HarborException(ResponseCode.INVALID_REQUEST.getCode(), ResponseCode.INVALID_REQUEST.getMessage());
@@ -120,7 +120,7 @@ public class EmailContentControllerImpl extends AbstractController<EmailContentV
 
 	@Override
 	@AccessLog
-	@Authorization(modules = ModuleEnum.COMMUNICATION, rights = RightsEnum.VIEW)
+	@Authorization(modules = ModuleEnum.EMAIL, rights = RightsEnum.VIEW)
 	public Response displayGrid(@RequestParam(name = "start", required = true) Integer start,
 			@RequestParam(name = "recordSize", required = true) Integer recordSize) throws HarborException {
 		return emailContentOperation.doDisplayGrid(start, recordSize);
@@ -128,7 +128,7 @@ public class EmailContentControllerImpl extends AbstractController<EmailContentV
 
 	@Override
 	@AccessLog
-	@Authorization(modules = ModuleEnum.COMMUNICATION, rights = RightsEnum.VIEW)
+	@Authorization(modules = ModuleEnum.EMAIL, rights = RightsEnum.VIEW)
 	public Response search(EmailContentView view, Integer start, Integer recordSize) throws HarborException {
 		return emailContentOperation.doSearch(view, start, recordSize);
 	}

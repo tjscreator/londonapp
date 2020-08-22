@@ -48,7 +48,7 @@ public class HarborExceptionHanlder {
 	@ResponseBody
 	public Response handleProgramException(HarborException harborException) throws IOException {
 		switch (harborException.getCode()) {
-		case 2002:
+		case 2001:
 			return CommonResponse.create(ResponseCode.INVALID_REQUEST.getCode(),
 					ResponseCode.INVALID_REQUEST.getMessage());
 		default:

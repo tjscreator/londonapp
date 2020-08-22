@@ -33,17 +33,15 @@ public enum ModuleEnum implements EnumType {
 	USER(1, "User", Arrays.asList(AppEnum.END_USER),
 			Arrays.asList(RightsEnum.ADD, RightsEnum.UPDATE, RightsEnum.VIEW, RightsEnum.DELETE, RightsEnum.ACTIVATION,
 					RightsEnum.LIST)),
-	ROLE(2, "Role", Arrays.asList(AppEnum.CLIENT), Arrays.asList(RightsEnum.VIEW, RightsEnum.LIST)),
-	SETTING(3, "Setting", Arrays.asList(AppEnum.CLIENT), Arrays.asList(RightsEnum.UPDATE, RightsEnum.VIEW)),
+	ROLE(2, "Role", Arrays.asList(AppEnum.MASTER_ADMIN), Arrays.asList(RightsEnum.VIEW, RightsEnum.LIST)),
+	SETTING(3, "Setting", Arrays.asList(AppEnum.MASTER_ADMIN), Arrays.asList(RightsEnum.UPDATE, RightsEnum.VIEW)),
 	CLIENT(4, "Client", Arrays.asList(AppEnum.CLIENT), Arrays.asList(RightsEnum.UPDATE, RightsEnum.VIEW)),
 	CLIENT_BRANCH(5, "Client Branch", Arrays.asList(AppEnum.CLIENT), Arrays.asList(RightsEnum.ADD, RightsEnum.UPDATE, RightsEnum.VIEW, RightsEnum.DELETE, RightsEnum.ACTIVATION,
 			RightsEnum.LIST)),
-	APP(6, "App", Arrays.asList(AppEnum.CLIENT), Arrays.asList()),
-	SMS_CONTENT(7, "SmsContent", Arrays.asList(AppEnum.CLIENT), Arrays.asList(RightsEnum.UPDATE, RightsEnum.LIST)),
-	SMS_DEFAULT_CONTENT(8, "Sms Default Content", Arrays.asList(AppEnum.CLIENT),
-			Arrays.asList(RightsEnum.UPDATE, RightsEnum.LIST)),
-	COMMUNICATION(9, "Communication", Arrays.asList(AppEnum.MASTER_ADMIN),
-			Arrays.asList(RightsEnum.UPDATE, RightsEnum.LIST));
+	APP(6, "App", Arrays.asList(AppEnum.MASTER_ADMIN), Arrays.asList()),
+	SMS(7, "SMS", Arrays.asList(AppEnum.MASTER_ADMIN), Arrays.asList()),
+	EMAIL(8, "Sms Default Content", Arrays.asList(AppEnum.MASTER_ADMIN),
+			Arrays.asList());
 	private final int id;
 	private final String name;
 	private final List<AppEnum> appEnums;

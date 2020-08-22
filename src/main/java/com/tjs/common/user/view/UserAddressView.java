@@ -1,5 +1,9 @@
 package com.tjs.common.user.view;
 
+import com.tjs.common.location.model.CountryModel;
+import com.tjs.common.location.view.CityView;
+import com.tjs.common.location.view.CountryView;
+import com.tjs.common.location.view.StateView;
 import com.tjs.common.view.IdNameView;
 import com.tjs.common.view.IdentifierView;
 
@@ -11,9 +15,9 @@ public class UserAddressView extends IdentifierView {
 	private static final long serialVersionUID = -3639308973927328059L;
 	private String address;
 	private String pincode;
-	private IdNameView cityView;
-	private IdNameView stateView;
-	private IdNameView countryView;
+	private CityView cityView;
+	private StateView stateView;
+	private CountryView countryView;
 
 	public String getAddress() {
 		return address;
@@ -31,27 +35,27 @@ public class UserAddressView extends IdentifierView {
 		this.pincode = pincode;
 	}
 
-	public IdNameView getCityView() {
+	public CityView getCityView() {
 		return cityView;
 	}
 
-	public void setCityView(IdNameView cityView) {
+	public void setCityView(CityView cityView) {
 		this.cityView = cityView;
 	}
 
-	public IdNameView getStateView() {
+	public StateView getStateView() {
 		return stateView;
 	}
 
-	public void setStateView(IdNameView stateView) {
+	public void setStateView(StateView stateView) {
 		this.stateView = stateView;
 	}
 
-	public IdNameView getCountryView() {
+	public CountryView getCountryView() {
 		return countryView;
 	}
 
-	public void setCountryView(IdNameView countryView) {
+	public void setCountryView(CountryView countryView) {
 		this.countryView = countryView;
 	}
 

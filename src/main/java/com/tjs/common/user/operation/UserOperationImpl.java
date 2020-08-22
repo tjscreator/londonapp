@@ -46,6 +46,9 @@ import com.tjs.common.location.model.StateModel;
 import com.tjs.common.location.service.CityService;
 import com.tjs.common.location.service.CountryService;
 import com.tjs.common.location.service.StateService;
+import com.tjs.common.location.view.CityView;
+import com.tjs.common.location.view.CountryView;
+import com.tjs.common.location.view.StateView;
 import com.tjs.common.modelenums.CommonStatusEnum;
 import com.tjs.common.operation.AbstractOperation;
 import com.tjs.common.response.CommonResponse;
@@ -242,12 +245,9 @@ public class UserOperationImpl extends AbstractOperation<UserModel, UserView> im
 		UserAddressView userAddressView = new UserAddressView();
 		userAddressView.setAddress(userAddressModel.getAddress());
 		userAddressView.setPincode(userAddressModel.getPincode());
-		userAddressView.setCityView(
-				new IdNameView(userAddressModel.getCityModel().getId(), userAddressModel.getCityModel().getName()));
-		userAddressView.setStateView(
-				new IdNameView(userAddressModel.getStateModel().getId(), userAddressModel.getStateModel().getName()));
-		userAddressView.setCountryView(new IdNameView(userAddressModel.getCountryModel().getId(),
-				userAddressModel.getCountryModel().getName()));
+		userAddressView.setCityView(CityView.setCityView(userAddressModel.getCityModel()));
+		userAddressView.setStateView(StateView.setStateView(userAddressModel.getStateModel()));
+		userAddressView.setCountryView(CountryView.setCountryView(userAddressModel.getCountryModel()));
 		return userAddressView;
 	}
 

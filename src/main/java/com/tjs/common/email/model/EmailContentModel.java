@@ -40,15 +40,6 @@ public class EmailContentModel extends ArchiveModel{
 	private String emailBcc;
 	private String emailCc;
 	private Integer triggerId;
-	private ClientModel hospitalModel;
-	
-	
-	public ClientModel getHospitalModel() {
-		return hospitalModel;
-	}
-	public void setHospitalModel(ClientModel hospitalModel) {
-		this.hospitalModel = hospitalModel;
-	}
 
 	private static Map<Long, EmailContentModel> MAP = new ConcurrentHashMap<>();
 

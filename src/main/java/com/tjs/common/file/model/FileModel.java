@@ -37,7 +37,6 @@ public class FileModel extends IdentifierModel {
 	private Long moduleId;
 	private Long upload;
 	private boolean publicfile;
-	private ClientModel hospitalModel;
 
 	public String getName() {
 		return name;
@@ -77,14 +76,6 @@ public class FileModel extends IdentifierModel {
 
 	public void setPublicfile(boolean publicfile) {
 		this.publicfile = publicfile;
-	}
-
-	public ClientModel getHospitalModel() {
-		return hospitalModel;
-	}
-
-	public void setHospitalModel(ClientModel hospitalModel) {
-		this.hospitalModel = hospitalModel;
 	}
 
 	public void setFileModel(String name, ModuleEnum moduleEnum, boolean isPublic) {

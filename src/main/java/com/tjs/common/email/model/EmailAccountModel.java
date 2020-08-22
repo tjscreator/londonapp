@@ -53,7 +53,6 @@ public class EmailAccountModel extends ArchiveModel {
 	private int authenticationMethod;
 	private int authenticationSecurity;
 	private Long timeOut;
-	private ClientModel hospitalModel;
 	
 	private static Map<Long, EmailAccountModel> MAP = new ConcurrentHashMap<>();
 	private static Map<String, EmailAccountModel> DEFAULT_VALUE_MAP = new ConcurrentHashMap<>();
@@ -75,14 +74,6 @@ public class EmailAccountModel extends ArchiveModel {
 		emailAccountModel.setAuthenticationSecurity(EmailAuthenticationSecurity.SSL.getId());
 		emailAccountModel.setTimeOut(60000l);
 		DEFAULT_VALUE_MAP.put("defaultAccount", emailAccountModel);
-	}
-
-	public ClientModel getHospitalModel() {
-		return hospitalModel;
-	}
-
-	public void setHospitalModel(ClientModel hospitalModel) {
-		this.hospitalModel = hospitalModel;
 	}
 
 	public Long getLockVersion() {

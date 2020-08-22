@@ -8,11 +8,11 @@
             <generator class="identity"/>
         </id>
         <version name="lockVersion" column="lockversion" type="long" />
-        <property name="name" column="txtname" type="java.lang.String" not-null="true" unique="true" length="50"/>
-        <property name="host" column="txthost" type="java.lang.String" not-null="true" length="100"/>
+        <property name="name" column="txtname" type="java.lang.String" not-null="true" unique="true" length="100"/>
+        <property name="host" column="txthost" type="java.lang.String" not-null="true" length="500"/>
         <property name="port" column="intport" type="java.lang.Long"/>
         <property name="username" column="txtusername" type="java.lang.String" not-null="true" unique="true" length="100"/>        
-        <property name="password" column="txtpassword" type="java.lang.String" not-null="true" length="100"/>
+        <property name="password" column="txtpassword" type="java.lang.String" not-null="true" length="500"/>
         <property name="replyToEmail" column="txtreplytoemail" type="java.lang.String" not-null="true" length="100"/>
         <property name="emailFrom" column="txtemailfrom" type="java.lang.String" not-null="true" length="100"/>
         <property name="ratePerHour" column="intrateperhour" type="java.lang.Long" not-null="true" length="6"/>
@@ -24,7 +24,6 @@
         <property name="authenticationMethod" column="enumauthmethod" type="int" access="field"/>
         <property name="authenticationSecurity" column="enumauthsecurity" type="int" access="field"/>
         <property name="timeOut" column="inttimeout" type="java.lang.Long"/> 
-        <many-to-one name="hospitalModel" entity-name="lightHospitalModel" column="fkhospitalid" lazy="false" fetch="join" not-null="false" />
         <!-- COMON HBM FIELDS STARTS -->
 		<property name="archive" column="isarchive" type="boolean" />
 		<property name="archiveDate" column="datearchive" type="java.lang.Long" />
@@ -60,7 +59,6 @@
         <property name="authenticationMethod" column="enumauthmethod" type="int" access="field"/>
         <property name="authenticationSecurity" column="enumauthsecurity" type="int" access="field"/>
         <property name="timeOut" column="inttimeout" type="java.lang.Long"/> 
-        <many-to-one name="hospitalModel" entity-name="lightHospitalModel" column="fkhospitalid" lazy="false" fetch="join" not-null="false" />
         <!-- COMON HBM FIELDS STARTS -->
 		<property name="archive" column="isarchive" type="boolean" />
 		<property name="active" column="isactive" type="boolean" />

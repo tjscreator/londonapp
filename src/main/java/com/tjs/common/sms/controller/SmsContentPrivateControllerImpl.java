@@ -81,7 +81,7 @@ public class SmsContentPrivateControllerImpl extends AbstractController<SmsConte
 
 	@Override
 	@AccessLog
-	@Authorization(modules = ModuleEnum.SMS_CONTENT, rights = RightsEnum.LIST)
+	@Authorization(modules = ModuleEnum.SMS, rights = RightsEnum.LIST)
 	public Response search(@RequestBody SmsContentView smsContentView,
 			@RequestParam(name = "start", required = true) Integer start,
 			@RequestParam(name = "recordSize", required = true) Integer recordSize) throws HarborException {
@@ -90,7 +90,7 @@ public class SmsContentPrivateControllerImpl extends AbstractController<SmsConte
 
 	@Override
 	@AccessLog
-	@Authorization(modules = ModuleEnum.SMS_CONTENT, rights = RightsEnum.UPDATE)
+	@Authorization(modules = ModuleEnum.SMS, rights = RightsEnum.UPDATE)
 	public Response edit(@RequestParam(name = "id", required = true) Long id) throws HarborException {
 		if (id == null) {
 			throw new HarborException(ResponseCode.INVALID_REQUEST.getCode(),
@@ -101,7 +101,7 @@ public class SmsContentPrivateControllerImpl extends AbstractController<SmsConte
 
 	@Override
 	@AccessLog
-	@Authorization(modules = ModuleEnum.SMS_CONTENT, rights = RightsEnum.UPDATE)
+	@Authorization(modules = ModuleEnum.SMS, rights = RightsEnum.UPDATE)
 	public Response update(@RequestBody SmsContentView smsContentView) throws HarborException {
 		if (smsContentView == null || (smsContentView != null && smsContentView.getId() == null)) {
 			throw new HarborException(ResponseCode.INVALID_REQUEST.getCode(),
@@ -125,7 +125,7 @@ public class SmsContentPrivateControllerImpl extends AbstractController<SmsConte
 
 	@Override
 	@AccessLog
-	@Authorization(modules = ModuleEnum.SMS_CONTENT, rights = RightsEnum.LIST)
+	@Authorization(modules = ModuleEnum.SMS, rights = RightsEnum.LIST)
 	public Response communicationFields() throws HarborException {
 		List<KeyValueView> keyValueViews = new ArrayList<>();
 		CommunicationFields.MAP.forEach((key, value) -> {

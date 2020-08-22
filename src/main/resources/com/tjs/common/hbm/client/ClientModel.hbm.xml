@@ -11,8 +11,8 @@
 		<version name="lockVersion" column="lockversion" type="long" />
 		<property name="name" column="txtname" type="java.lang.String" not-null="true" length="300" />
 		<property name="countryCode" column="txtcountrycode" type="java.lang.String" not-null="false" length="4" />
-		<property name="mobile" column="txtmobile" type="java.lang.String" not-null="false" length="20" />
-		<property name="apikey" column="txtapikey" type="java.lang.String" not-null="true" length="30" />
+		<property name="mobile" column="txtmobile" type="java.lang.String" not-null="false" length="15" />
+		<property name="apiKey" column="txtapikey" type="java.lang.String" not-null="true" length="30" />
 		<many-to-one name="logoFileModel" entity-name="fileModel" column="fklogoid" lazy="false" fetch="join" not-null="false" />
 		<property name="address" column="txtaddress" type="java.lang.String" />
 		<property name="pincode" column="txtpincode" type="java.lang.String" length="6" />
@@ -39,7 +39,7 @@
 		<property name="name" column="txtname" type="java.lang.String" not-null="true" length="300" />
 		<property name="countryCode" column="txtcountrycode" type="java.lang.String" not-null="false" length="4" />
 		<property name="mobile" column="txtmobile" type="java.lang.String" not-null="false" length="20" />
-		<property name="apikey" column="txtapikey" type="java.lang.String" not-null="true" length="30" />
+		<property name="apiKey" column="txtapikey" type="java.lang.String" not-null="true" length="30" />
 		<many-to-one name="logoFileModel" entity-name="fileModel" column="fklogoid" lazy="false" fetch="join" not-null="false" />
 		<property name="address" column="txtaddress" type="java.lang.String" />
 		<property name="pincode" column="txtpincode" type="java.lang.String" length="6" />
@@ -58,7 +58,7 @@
 		<property name="name" column="txtname" type="java.lang.String" not-null="true" length="300" />
 		<property name="countryCode" column="txtcountrycode" type="java.lang.String" not-null="false" length="4" />
 		<property name="mobile" column="txtmobile" type="java.lang.String" not-null="false" length="20" />
-		<property name="apikey" column="txtapikey" type="java.lang.String" not-null="true" length="30" />
+		<property name="apiKey" column="txtapikey" type="java.lang.String" not-null="true" length="30" />
 		<property name="address" column="txtaddress" type="java.lang.String" />
 		<property name="pincode" column="txtpincode" type="java.lang.String" length="6" />
     		<!-- COMON HBM FIELDS STARTS -->

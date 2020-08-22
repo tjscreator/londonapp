@@ -15,7 +15,6 @@
 		<property name="emailBcc" column="txtemailbcc" type="java.lang.String" />
 		<property name="emailCc" column="txtemailcc" type="java.lang.String" />
 		<property name="triggerId" column="fktriggerid" type="java.lang.Integer" not-null="true" access="field"/>
-		<many-to-one name="hospitalModel" entity-name="lightHospitalModel" column="fkhospitalid" lazy="false" fetch="join" not-null="false" />
 			<!-- COMON HBM FIELDS STARTS -->
 		<property name="archive" column="isarchive" type="boolean" />
 		<property name="archiveDate" column="datearchive" type="java.lang.Long" />
@@ -42,7 +41,6 @@
 		<property name="emailBcc" column="txtemailbcc" type="java.lang.String" />
 		<property name="emailCc" column="txtemailcc" type="java.lang.String" />
 		<property name="triggerId" column="fktriggerid" type="java.lang.Integer" not-null="true" access="field"/>
-		<many-to-one name="hospitalModel" entity-name="lightHospitalModel" column="fkhospitalid" lazy="false" fetch="join" not-null="false" />
 			<!-- COMON HBM FIELDS STARTS -->
 		<property name="archive" column="isarchive" type="boolean" />
 		<property name="active" column="isactive" type="boolean" />

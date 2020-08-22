@@ -21,6 +21,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.tjs.common.enums.ResponseCode;
 import com.tjs.common.file.view.FileView;
+import com.tjs.common.location.view.CityView;
+import com.tjs.common.location.view.CountryView;
+import com.tjs.common.location.view.StateView;
 import com.tjs.common.user.view.UserView;
 import com.tjs.common.validation.DataType;
 import com.tjs.common.validation.InputField;
@@ -48,9 +51,9 @@ public class ClientView extends ArchiveView {
 	private FileView logoFileView;
 	private String address;
 	private String pincode;
-	private IdNameView cityView;
-	private IdNameView stateView;
-	private IdNameView countryView;
+	private CityView cityView;
+	private StateView stateView;
+	private CountryView countryView;
 	private UserView userView;
 	private boolean isRegistration;
 
@@ -94,27 +97,27 @@ public class ClientView extends ArchiveView {
 		this.pincode = pincode;
 	}
 
-	public IdNameView getCityView() {
+	public CityView getCityView() {
 		return cityView;
 	}
 
-	public void setCityView(IdNameView cityView) {
+	public void setCityView(CityView cityView) {
 		this.cityView = cityView;
 	}
 
-	public IdNameView getStateView() {
+	public StateView getStateView() {
 		return stateView;
 	}
 
-	public void setStateView(IdNameView stateView) {
+	public void setStateView(StateView stateView) {
 		this.stateView = stateView;
 	}
 
-	public IdNameView getCountryView() {
+	public CountryView getCountryView() {
 		return countryView;
 	}
 
-	public void setCountryView(IdNameView countryView) {
+	public void setCountryView(CountryView countryView) {
 		this.countryView = countryView;
 	}
 
@@ -167,7 +170,8 @@ public class ClientView extends ArchiveView {
 	public static void isValid(ClientView clientView) throws HarborException {
 		Validator.CLIENT_NAME.isValid(new InputField(clientView.getName(), DataType.STRING, 300,
 				RegexEnum.ALPHA_NUMERIC_WITH_SPECIFIC_SPECIAL_CHARACTER));
-		Validator.USER_MOBILE.isValid(new InputField(clientView.getMobile(), DataType.STRING, RegexEnum.PHONE_NUMBER));
+		Validator.USER_MOBILE
+				.isValid(new InputField(clientView.getMobile(), DataType.STRING, 15, RegexEnum.PHONE_NUMBER));
 		if (StringUtils.isBlank(clientView.getCountryCode())) {
 			throw new HarborException(ResponseCode.DATA_IS_MISSING.getCode(),
 					"Country code " + ResponseCode.DATA_IS_MISSING.getMessage());
@@ -216,13 +220,9 @@ public class ClientView extends ArchiveView {
 			throw new HarborException(ResponseCode.DATA_IS_MISSING.getCode(),
 					"User name " + ResponseCode.DATA_IS_MISSING.getMessage());
 		}
-		if (StringUtils.isBlank(clientView.getUserView().getMobile())) {
-			throw new HarborException(ResponseCode.DATA_IS_MISSING.getCode(),
-					"User mobile " + ResponseCode.DATA_IS_MISSING.getMessage());
-		}
-		if (StringUtils.isBlank(clientView.getUserView().getEmail())) {
-			throw new HarborException(ResponseCode.DATA_IS_MISSING.getCode(),
-					"User email " + ResponseCode.DATA_IS_MISSING.getMessage());
-		}
+		Validator.USER_MOBILE.isValid(
+				new InputField(clientView.getUserView().getMobile(), DataType.STRING, 15, RegexEnum.PHONE_NUMBER));
+		Validator.USER_EMAIL_ID
+				.isValid(new InputField(clientView.getUserView().getEmail(), DataType.STRING, 200, RegexEnum.EMAIL));
 	}
 }

@@ -19,6 +19,9 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.tjs.common.client.model.ClientModel;
+import com.tjs.common.client.view.ClientView;
+import com.tjs.common.location.model.CityModel;
 import com.tjs.common.view.IdentifierView;
 import com.tjs.common.view.KeyValueView;
 
@@ -60,5 +63,12 @@ public class CityView extends IdentifierView{
 	}
 	public void setStateList(List<KeyValueView> stateList) {
 		this.stateList = stateList;
+	}
+	
+	public static CityView setCityView(CityModel cityModel) {
+		CityView cityView = new CityView();
+		cityView.setId(cityModel.getId());
+		cityView.setName(cityModel.getName());
+		return cityView;
 	}
 }

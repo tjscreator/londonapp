@@ -1,5 +1,8 @@
  USE dbharbor;
  
+insert into tblrole(lockversion,txtname,fkgroupid,fkappid,datecreate,isactive) 
+values(0,'Master Admin',1,1,1598120311,true),(0,'Client Admin',2,2,1598120311,true),(0,'End User',3,3,1598120311,true);
+ 
 insert into tblrolemoduleright values(1,1,1),(1,1,2),(1,1,3),(1,1,4),(1,1,5),(1,1,6);
 insert into tblrolemoduleright values(1,2,1),(1,2,2),(1,2,3),(1,2,4),(1,2,5),(1,2,6);
 insert into tblrolemoduleright values(1,3,2),(1,3,3),(1,3,6);

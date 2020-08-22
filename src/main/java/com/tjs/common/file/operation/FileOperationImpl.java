@@ -55,9 +55,6 @@ public class FileOperationImpl implements FileOperation {
 	@Override
 	public Response doSave(String fileName, Integer moduleId, boolean isPublic) throws HarborException {
 		FileModel fileModel = toModel(getNewModel(), fileName, moduleId, isPublic);
-		if (Auditor.getAuditor() != null) {
-			fileModel.setHospitalModel(Auditor.getAuditor().getUserRequestedClientModel());
-		}
 		fileService.create(fileModel);
 		return ViewResponse.create(ResponseCode.SUCCESSFUL.getCode(), ResponseCode.SUCCESSFUL.getMessage(),
 				fromModel(fileModel));
@@ -67,12 +64,10 @@ public class FileOperationImpl implements FileOperation {
 	public Response doSaveWithThumbNail(String fileName, String thumbNailName, Integer moduleId)
 			throws HarborException {
 		FileModel fileModel = toModel(getNewModel(), fileName, moduleId, false);
-		fileModel.setHospitalModel(Auditor.getAuditor().getUserRequestedClientModel());
 		fileService.create(fileModel);
 		FileView fileView = fromModel(fileModel);
 
 		FileModel thumbNailModel = toModel(getNewModel(), thumbNailName, moduleId, false);
-		thumbNailModel.setHospitalModel(Auditor.getAuditor().getUserRequestedClientModel());
 		fileService.create(thumbNailModel);
 		fileView.setThumbNailName(thumbNailModel.getName());
 		fileView.setThumbNailId(thumbNailModel.getFileId());

@@ -1,6 +1,8 @@
 package com.tjs.common.client.controller;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +11,7 @@ import com.tjs.common.aop.AccessLog;
 import com.tjs.common.client.operation.ClientOperation;
 import com.tjs.common.client.view.ClientView;
 import com.tjs.common.enums.ResponseCode;
+import com.tjs.common.logger.LoggerService;
 import com.tjs.common.response.Response;
 import com.tjs.harbor.exception.HarborException;
 
@@ -34,7 +37,16 @@ public class ClientPublicControllerImpl implements ClientPublicController {
 		}
 		ClientView.isValid(clientView);
 		clientView.setRegistration(true);
-		return clientOperation.doSave(clientView);
+		try {
+			return clientOperation.doSave(clientView);
+		} catch (DataIntegrityViolationException dataIntegrityViolationException) {
+			LoggerService.exception(dataIntegrityViolationException);
+			throw new HarborException(ResponseCode.ALREADY_EXIST.getCode(), "Client name already exists.");
+		} catch (ConstraintViolationException constraintViolationException) {
+			LoggerService.exception(constraintViolationException);
+			throw new HarborException(ResponseCode.ALREADY_EXIST.getCode(), "Client name already exists.");
+		}
+
 	}
 
 }

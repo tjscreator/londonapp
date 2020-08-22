@@ -20,9 +20,10 @@ import com.tjs.common.model.ArchiveModel;
 import com.tjs.harbor.email.enums.Status;
 
 /**
- * This is Transaction Email model which maps Transaction email table of database.
- * Transaction email like (Password generation, activation link etc) will fall under this category.
- * User action related mail fall under this category.
+ * This is Transaction Email model which maps Transaction email table of
+ * database. Transaction email like (Password generation, activation link etc)
+ * will fall under this category. User action related mail fall under this
+ * category.
  * 
  * @author Dhruvang.Joshi
  * @since 28/07/2017
@@ -30,33 +31,30 @@ import com.tjs.harbor.email.enums.Status;
  */
 
 public class TransactionalEmailModel extends ArchiveModel {
-	
+
 	private static final long serialVersionUID = -4351538513633808259L;
-	
+
 	private Long emailAccountId;
 	private Long lockVersion;
 	private String emailTo;
 	private String emailCc;
 	private String emailBcc;
-	private String subject;	 
-	private String body;	
+	private String subject;
+	private String body;
 	private int status;
 	private Long retryCount;
 	private String attachmentPath;
 	private String txtError;
 	private Long dateSend;
 	private Long dateSent;
-	private ClientModel hospitalModel;
-	
-	
-	
+	private ClientModel clientModel;
 
-	public ClientModel getHospitalModel() {
-		return hospitalModel;
+	public ClientModel getClientModel() {
+		return clientModel;
 	}
 
-	public void setHospitalModel(ClientModel hospitalModel) {
-		this.hospitalModel = hospitalModel;
+	public void setClientModel(ClientModel clientModel) {
+		this.clientModel = clientModel;
 	}
 
 	public Long getLockVersion() {
@@ -66,7 +64,7 @@ public class TransactionalEmailModel extends ArchiveModel {
 	public void setLockVersion(Long lockVersion) {
 		this.lockVersion = lockVersion;
 	}
-	
+
 	public Long getEmailAccountId() {
 		return emailAccountId;
 	}

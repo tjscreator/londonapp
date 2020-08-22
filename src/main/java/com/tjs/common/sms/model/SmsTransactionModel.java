@@ -27,7 +27,6 @@ import com.tjs.common.model.ArchiveModel;
  */
 public class SmsTransactionModel extends ArchiveModel {
 
-	
 	/**
 	 * 
 	 */
@@ -40,7 +39,7 @@ public class SmsTransactionModel extends ArchiveModel {
 	private String error;
 	private Long dateSend;
 	private Long dateSent;
-	private ClientModel hospitalModel;
+	private ClientModel clientModel;
 
 	public Long getSmsAccountId() {
 		return smsAccountId;
@@ -106,12 +105,12 @@ public class SmsTransactionModel extends ArchiveModel {
 		this.dateSent = dateSent;
 	}
 
-	public ClientModel getHospitalModel() {
-		return hospitalModel;
+	public ClientModel getClientModel() {
+		return clientModel;
 	}
 
-	public void setHospitalModel(ClientModel hospitalModel) {
-		this.hospitalModel = hospitalModel;
+	public void setClientModel(ClientModel clientModel) {
+		this.clientModel = clientModel;
 	}
 
 }

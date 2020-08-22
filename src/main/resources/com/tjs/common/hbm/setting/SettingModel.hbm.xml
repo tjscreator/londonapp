@@ -10,6 +10,6 @@
 		</id>
 		<property name="key" column="txtkey" type="java.lang.String" not-null="true" length="100" />
 		<property name="dataType" column="enumdatatype" type="java.lang.Integer" not-null="true" access="field"/>
-		<property name="value" column="txtvalue" type="java.lang.String" not-null="true" length="1000" />
+		<property name="value" column="txtvalue" type="java.lang.String" not-null="true" length="100" />
 	</class>
 </hibernate-mapping>

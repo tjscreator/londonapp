@@ -29,6 +29,7 @@ public interface UserService extends BaseService<UserModel> {
 	String USER_MODEL = "userModel";
 	String LIGHT_USER_MODEL = "lightUserModel";
 	String EMAIL_MOBILE_USER_MODEL = "emailMobileUserModel";
+	String EXTRA_LIGHT_USER_MODEL="extraLightUserModel";
 
 	/**
 	 * This method is used to find user through their email id.

@@ -48,9 +48,6 @@ public class HikariCPConfiguration {
 	@Value("${datasource.dataSourceClassName}")
 	private String dataSourceClassName;
 	
-	@Value("${datasource.jdbcurl}")
-	private String jdbcurl;
-
 	@Value("${datasource.user}")
 	private String user;
 	
@@ -101,7 +98,6 @@ public class HikariCPConfiguration {
 		connectionPoolProperty.put("minimumIdle", minimumIdle);
 
 		HikariConfig hikariConfig = new HikariConfig(connectionPoolProperty);
-		hikariConfig.setJdbcUrl(jdbcurl);
 		HikariDataSource hikariDataSoruce = new HikariDataSource(hikariConfig);
 		return hikariDataSoruce;
 	}

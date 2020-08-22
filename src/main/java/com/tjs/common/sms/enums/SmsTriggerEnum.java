@@ -90,7 +90,7 @@ public enum SmsTriggerEnum implements ModelEnum {
 		smsTransactionModel.setActive(true);
 		smsTransactionModel.setArchive(false);
 		smsTransactionModel.setDateSend(DateUtility.getCurrentEpoch());
-		smsTransactionModel.setHospitalModel(userModel.getUserRequestedClientModel());
+		smsTransactionModel.setClientModel(userModel.getUserRequestedClientModel());
 		smsTransactionService.create(smsTransactionModel);
 
 	}

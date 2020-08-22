@@ -96,7 +96,7 @@ create index index_tbluser_fkprofilepicid on tbluser(fkprofilepicid);
  create table tbluseraddress(
 	pkid bigserial not null,
 	fkuserid bigint not null,
-	txtaddress varchar(1000) default null,
+	txtaddress text default null,
 	txtpincode varchar(6) default null,
 	fkcityid bigint not null,
 	fkstateid bigint not null,
@@ -512,3 +512,8 @@ create table tbluserclient(
 );
 create index index_tbluserclient_fkuserid on tbluserclient(fkuserid);
 create index index_tbluserclient_fkclientid on tbluserclient(fkclientid);
+
+/**
+ * 22/08/2020
+ */
+ALTER TABLE tblclient ALTER COLUMN txtapikey TYPE varchar(64);

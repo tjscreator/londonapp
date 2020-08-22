@@ -318,6 +318,10 @@ public enum Validator implements EnumType {
 				throw new HarborException(ResponseCode.DATA_IS_MISSING.getCode(),
 						USER_MOBILE.getName() + " " + ResponseCode.DATA_IS_MISSING.getMessage());
 			}
+			if (!ValidationType.MAX_LENGTH.isValid(inputField)) {
+				throw new HarborException(ResponseCode.MAX_LENGTH_EXCEED.getCode(), "Max " + inputField.getMaxLength()
+						+ " " + ResponseCode.MAX_LENGTH_EXCEED.getMessage() + " in " + USER_MOBILE.getName());
+			}
 			if (!ValidationType.REGEX.isValid(inputField)) {
 				throw new HarborException(ResponseCode.DATA_IS_INVALID.getCode(), inputField.getRegex().getMessage());
 			}

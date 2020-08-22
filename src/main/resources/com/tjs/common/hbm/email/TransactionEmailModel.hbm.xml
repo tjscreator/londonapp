@@ -20,7 +20,7 @@
         <property name="txtError" column="txterror" type="java.lang.String"/>
         <property name="dateSend" column="datesend" type="java.lang.Long" update="false"/>
         <property name="dateSent" column="datesent" type="java.lang.Long" />
-        <many-to-one name="hospitalModel" entity-name="lightHospitalModel" column="fkhospitalid" lazy="false" fetch="join" not-null="false" />
+        <many-to-one name="clientModel" entity-name="extraLightClientModel" column="fkclientid" lazy="false" fetch="join" not-null="false" />
         	<!-- COMON HBM FIELDS STARTS -->
 		<property name="archive" column="isarchive" type="boolean" />
 		<property name="archiveDate" column="datearchive" type="java.lang.Long" />

@@ -24,6 +24,9 @@ import com.tjs.common.location.model.StateModel;
 import com.tjs.common.location.service.CityService;
 import com.tjs.common.location.service.CountryService;
 import com.tjs.common.location.service.StateService;
+import com.tjs.common.location.view.CityView;
+import com.tjs.common.location.view.CountryView;
+import com.tjs.common.location.view.StateView;
 import com.tjs.common.model.PageModel;
 import com.tjs.common.operation.AbstractOperation;
 import com.tjs.common.response.CommonResponse;
@@ -126,6 +129,7 @@ public class ClientOperationImpl extends AbstractOperation<ClientModel, ClientVi
 	public ClientModel toModel(ClientModel clientModel, ClientView clientView) {
 		clientModel.setName(clientView.getName());
 		clientModel.setMobile(clientView.getMobile());
+		clientModel.setCountryCode(clientView.getCountryCode());
 		if (clientView.getLogoFileView() != null && !StringUtils.isBlank(clientView.getLogoFileView().getFileId())) {
 			FileModel fileModel = fileService.getByFileId(clientView.getLogoFileView().getFileId());
 			if (fileModel != null) {
@@ -180,19 +184,19 @@ public class ClientOperationImpl extends AbstractOperation<ClientModel, ClientVi
 		if (clientModel.getCityModel() != null && clientModel.getCityModel().getId() != null) {
 			CityModel cityModel = cityService.get(clientModel.getCityModel().getId());
 			if (cityModel != null) {
-				clientView.setCityView(new IdNameView(cityModel.getId(), cityModel.getName()));
+				clientView.setCityView(CityView.setCityView(cityModel));
 			}
 		}
 		if (clientModel.getStateModel() != null && clientModel.getStateModel().getId() != null) {
 			StateModel stateModel = stateService.get(clientModel.getStateModel().getId());
 			if (stateModel != null) {
-				clientView.setStateView(new IdNameView(stateModel.getId(), stateModel.getName()));
+				clientView.setStateView(StateView.setStateView(stateModel));
 			}
 		}
 		if (clientModel.getCountryModel() != null && clientModel.getCountryModel().getId() != null) {
 			CountryModel countryModel = countryService.get(clientModel.getCountryModel().getId());
 			if (countryModel != null) {
-				clientView.setCountryView(new IdNameView(countryModel.getId(), countryModel.getName()));
+				clientView.setCountryView(CountryView.setCountryView(countryModel));
 			}
 		}
 		return clientView;
@@ -244,10 +248,12 @@ public class ClientOperationImpl extends AbstractOperation<ClientModel, ClientVi
 				userModel.setName(clientView.getUserView().getName());
 				userModel.setMobile(clientView.getUserView().getMobile());
 				userModel.setEmail(clientView.getUserView().getEmail());
+				userModel.setVerifyToken(Utility.generateUuid());
+				userModel.setVerifyTokenUsed(true);
 				userModel.setActive(true);
 				createThumbNailImage(userModel);
-				setPassword(userModel, clientView);
 				userService.create(userModel);
+				setPassword(userModel, clientView);
 				userModel.addClientModel(clientModel);
 				userModel.addRoleModel(roleService.getByGroup(GroupEnum.fromId(GroupEnum.CLIENT_ADMIN.getId())));
 			}
