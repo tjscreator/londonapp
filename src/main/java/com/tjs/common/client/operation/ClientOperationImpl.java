@@ -130,6 +130,9 @@ public class ClientOperationImpl extends AbstractOperation<ClientModel, ClientVi
 		clientModel.setName(clientView.getName());
 		clientModel.setMobile(clientView.getMobile());
 		clientModel.setCountryCode(clientView.getCountryCode());
+		if(clientView.getId()!=null) {
+			clientModel.setActive(true);
+		}
 		if (clientView.getLogoFileView() != null && !StringUtils.isBlank(clientView.getLogoFileView().getFileId())) {
 			FileModel fileModel = fileService.getByFileId(clientView.getLogoFileView().getFileId());
 			if (fileModel != null) {
@@ -320,6 +323,12 @@ public class ClientOperationImpl extends AbstractOperation<ClientModel, ClientVi
 		}
 		return PageResultResponse.create(ResponseCode.SUCCESSFUL.getCode(), ResponseCode.SUCCESSFUL.getMessage(),
 				pageModel.getRecords(), fromModelList((List<ClientModel>) pageModel.getList()));
+	}
+
+	@Override
+	public Response doActivation(String activationToken) throws HarborException {
+		
+		return null;
 	}
 
 }

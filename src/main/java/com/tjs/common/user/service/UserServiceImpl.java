@@ -53,21 +53,21 @@ public class UserServiceImpl extends AbstractService<UserModel> implements UserS
 
 	@Override
 	public UserModel getByEmail(String email) {
-		Criteria criteria = getSession().createCriteria(EMAIL_MOBILE_USER_MODEL);
+		Criteria criteria = getSession().createCriteria(LIGHT_USER_MODEL);
 		criteria.add(Restrictions.eq("email", email));
 		return (UserModel) criteria.uniqueResult();
 	}
 
 	@Override
 	public UserModel getByMobile(String mobile) {
-		Criteria criteria = getSession().createCriteria(EMAIL_MOBILE_USER_MODEL);
+		Criteria criteria = getSession().createCriteria(LIGHT_USER_MODEL);
 		criteria.add(Restrictions.eq("mobile", mobile));
 		return (UserModel) criteria.uniqueResult();
 	}
 
 	@Override
 	public UserModel getByToken(String token) {
-		Criteria criteria = getSession().createCriteria(LIGHT_USER_MODEL);
+		Criteria criteria = getSession().createCriteria(EXTRA_LIGHT_USER_MODEL);
 		criteria.add(Restrictions.eq("verifyToken", token));
 		return (UserModel) criteria.uniqueResult();
 	}

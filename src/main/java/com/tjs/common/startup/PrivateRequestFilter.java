@@ -207,7 +207,7 @@ public class PrivateRequestFilter implements Filter {
 		}
 
 		if (userSessionModel.isResetPasswordSession()) {
-			if (!httpServletRequest.getRequestURI().endsWith("resetpassword")) {
+			if (!httpServletRequest.getRequestURI().endsWith("reset-password")) {
 				CommonResponse commonResponse = CommonResponse.create(ResponseCode.INVALID_REQUEST.getCode(),
 						ResponseCode.INVALID_REQUEST.getMessage());
 				sendResponse(httpServletRequest, httpServletResponse, commonResponse);

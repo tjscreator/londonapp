@@ -17,10 +17,8 @@
         <property name="emailFrom" column="txtemailfrom" type="java.lang.String" not-null="true" length="100"/>
         <property name="ratePerHour" column="intrateperhour" type="java.lang.Long" not-null="true" length="6"/>
         <property name="updateRatePerHour" column="intupdaterateperhour" type="java.lang.Long" not-null="true" length="6"/>
-        <property name="dateRatePerHour" column="daterateperhour" type="java.lang.Long" />
         <property name="ratePerDay" column="intrateperday" type="java.lang.Long" not-null="true" length="15"/>
         <property name="updateRatePerDay" column="intupdaterateperday" type="java.lang.Long" not-null="true" length="15"/>
-        <property name="dateRatePerDay" column="daterateperday" type="java.lang.Long" />
         <property name="authenticationMethod" column="enumauthmethod" type="int" access="field"/>
         <property name="authenticationSecurity" column="enumauthsecurity" type="int" access="field"/>
         <property name="timeOut" column="inttimeout" type="java.lang.Long"/> 
@@ -52,10 +50,8 @@
         <property name="emailFrom" column="txtemailfrom" type="java.lang.String" not-null="true" length="100"/>
         <property name="ratePerHour" column="intrateperhour" type="java.lang.Long" not-null="true" length="6"/>
         <property name="updateRatePerHour" column="intupdaterateperhour" type="java.lang.Long" not-null="true" length="6"/>
-        <property name="dateRatePerHour" column="daterateperhour" type="java.lang.Long" />
         <property name="ratePerDay" column="intrateperday" type="java.lang.Long" not-null="true" length="15"/>
         <property name="updateRatePerDay" column="intupdaterateperday" type="java.lang.Long" not-null="true" length="15"/>
-        <property name="dateRatePerDay" column="daterateperday" type="java.lang.Long" />
         <property name="authenticationMethod" column="enumauthmethod" type="int" access="field"/>
         <property name="authenticationSecurity" column="enumauthsecurity" type="int" access="field"/>
         <property name="timeOut" column="inttimeout" type="java.lang.Long"/> 

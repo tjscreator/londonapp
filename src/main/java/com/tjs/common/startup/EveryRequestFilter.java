@@ -31,7 +31,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import com.tjs.common.logger.LoggerService;
-import com.tjs.common.setting.model.AllowedDomainsModel;
 import com.tjs.common.threadlocal.Uuid;
 import com.tjs.common.util.Utility;
 
@@ -79,10 +78,10 @@ public class EveryRequestFilter implements Filter {
 
 	private void giveAccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
 			String originHeader) {
-		if (!httpServletRequest.getRequestURI().contains("file/download") && AllowedDomainsModel.getValue(originHeader)) {
+		if (!httpServletRequest.getRequestURI().contains("file/download")) {
 			httpServletResponse.addHeader("Access-Control-Allow-Origin", originHeader);
 			httpServletResponse.addHeader("Access-Control-Allow-Credentials", "true");
-			httpServletResponse.addHeader("Access-Control-Expose-Headers", "Content-Type,app-key,kiosk-key,hospital-id");
+			httpServletResponse.addHeader("Access-Control-Expose-Headers", "Content-Type,app-key,api-key");
 		}
 	}
 
@@ -90,13 +89,8 @@ public class EveryRequestFilter implements Filter {
 			String originHeader) {
 		if (httpServletRequest.getHeader("Access-Control-Request-Method") != null
 				&& "OPTIONS".equals(httpServletRequest.getMethod())) {
-			if (AllowedDomainsModel.getValue(originHeader)) {
-				httpServletResponse.addHeader("Access-Control-Allow-Origin", originHeader);
-				httpServletResponse.addHeader("Access-Control-Allow-Credentials", "true");
-				httpServletResponse.addHeader("Access-Control-Expose-Headers", "Content-Type,app-key,kiosk-key,hospital-id");
-			}
 			httpServletResponse.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-			httpServletResponse.addHeader("Access-Control-Allow-Headers", "Content-Type,app-key,kiosk-key,hospital-id");
+			httpServletResponse.addHeader("Access-Control-Allow-Headers", "Content-Type,app-key,api-key");
 			httpServletResponse.addHeader("Access-Control-Max-Age", "1");
 			return true;
 		}

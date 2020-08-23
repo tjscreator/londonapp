@@ -179,9 +179,11 @@ public class UserOperationImpl extends AbstractOperation<UserModel, UserView> im
 	@Override
 	public UserModel toModel(UserModel userModel, UserView userView) {
 		userModel.setName(userView.getName());
-		userModel.setEmail(userView.getEmail());
-		userModel.setCountryCode(userView.getCountryCode());
-		userModel.setMobile(userView.getMobile());
+		if(userView.getId()==null) {
+			userModel.setEmail(userView.getEmail());
+			userModel.setCountryCode(userView.getCountryCode());
+			userModel.setMobile(userView.getMobile());
+		}
 		return userModel;
 	}
 
@@ -207,7 +209,8 @@ public class UserOperationImpl extends AbstractOperation<UserModel, UserView> im
 		userAddressModel.setCityModel(cityModel);
 		userAddressModel.setStateModel(stateModel);
 		userAddressModel.setCountryModel(countryModel);
-		userModel.addUserAddressModel(userAddressModel);
+		userAddressModel.setUserModel(userModel);
+		userAddressService.create(userAddressModel);
 	}
 
 	@Override
@@ -365,8 +368,8 @@ public class UserOperationImpl extends AbstractOperation<UserModel, UserView> im
 			throw new HarborException(ResponseCode.DELETED_USER.getCode(), ResponseCode.DELETED_USER.getMessage());
 		}
 		if (!userModel.isActive()) {
-			throw new HarborException(ResponseCode.EMAIL_VERIFICATION.getCode(),
-					ResponseCode.EMAIL_VERIFICATION.getMessage());
+			throw new HarborException(ResponseCode.PLEASE_VERIFY_YOUR_ACCOUNT.getCode(),
+					ResponseCode.PLEASE_VERIFY_YOUR_ACCOUNT.getMessage());
 		}
 		return userModel;
 	}
@@ -638,7 +641,7 @@ public class UserOperationImpl extends AbstractOperation<UserModel, UserView> im
 
 	@Override
 	public Response doResetPasswordVerification(String token) throws HarborException {
-		UserModel userModel = userService.getByToken(token);
+		UserModel userModel = userService.getByResetPasswordToken(token);
 		if (userModel == null) {
 			throw new HarborException(ResponseCode.INVALID_TOKEN.getCode(), ResponseCode.INVALID_TOKEN.getMessage());
 		}
@@ -692,10 +695,6 @@ public class UserOperationImpl extends AbstractOperation<UserModel, UserView> im
 	@Override
 	public Response doSendResetLink(UserView userView, boolean isLoginThroughEmail) throws HarborException {
 		UserModel userModel = validateUser(userView, isLoginThroughEmail, false);
-		if (!userModel.isVerifyTokenUsed()) {
-			throw new HarborException(ResponseCode.EMAIL_VERIFICATION.getCode(),
-					ResponseCode.EMAIL_VERIFICATION.getMessage());
-		}
 		userModel.setResetPasswordToken(Utility.generateUuid());
 		userModel.setResetPasswordTokenUsed(false);
 		userModel.setResetPasswordDate(DateUtility.getCurrentEpoch());
@@ -703,7 +702,7 @@ public class UserOperationImpl extends AbstractOperation<UserModel, UserView> im
 
 		Map<String, String> dynamicFields = new TreeMap<>();
 		dynamicFields.put(CommunicationFields.EMAIL.getName(), userModel.getEmail());
-		dynamicFields.put(CommunicationFields.USER_NAME.getName(), userModel.getEmail());
+		dynamicFields.put(CommunicationFields.USER_NAME.getName(), userModel.getName());
 		dynamicFields.put(CommunicationFields.RESET_PASSWORD_TOKEN.getName(), userModel.getResetPasswordToken());
 		if (userModel.getClientModels() != null && !userModel.getClientModels().isEmpty()) {
 			dynamicFields.put(CommunicationFields.URL.getName(), SettingModel.getWebsiteURL());
@@ -713,5 +712,21 @@ public class UserOperationImpl extends AbstractOperation<UserModel, UserView> im
 
 		return CommonResponse.create(ResponseCode.FORGET_PASSWORD_SUCCESSFUL.getCode(),
 				ResponseCode.FORGET_PASSWORD_SUCCESSFUL.getMessage());
+	}
+
+	@Override
+	public Response doActivateAccount(String activationToken) throws HarborException {
+		UserModel userModel=userService.getByToken(activationToken);
+		if (userModel == null) {
+			throw new HarborException(ResponseCode.INVALID_TOKEN.getCode(), ResponseCode.INVALID_TOKEN.getMessage());
+		}
+		if (userModel.isArchive() || userModel.isVerifyTokenUsed()) {
+			throw new HarborException(ResponseCode.EXPIRED_TOKEN.getCode(), ResponseCode.EXPIRED_TOKEN.getMessage());
+		}
+		userModel.setActive(true);
+		userModel.setVerifyTokenUsed(true);
+		userService.update(userModel);
+		return CommonResponse.create(ResponseCode.ACTIVATION_SUCCESSFUL.getCode(),
+				ResponseCode.ACTIVATION_SUCCESSFUL.getMessage());
 	}
 }

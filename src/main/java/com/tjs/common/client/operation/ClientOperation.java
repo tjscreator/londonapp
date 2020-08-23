@@ -17,10 +17,21 @@ package com.tjs.common.client.operation;
 
 import com.tjs.common.client.view.ClientView;
 import com.tjs.common.operation.BaseOperation;
+import com.tjs.common.response.Response;
+import com.tjs.harbor.exception.HarborException;
 
 /**
  * @author Jaydip
  * @since 22/04/2019
  */
 public interface ClientOperation extends BaseOperation<ClientView> {
+
+	/**
+	 * this method for activate client.
+	 * 
+	 * @param activationToken
+	 * @return
+	 * @throws HarborException
+	 */
+	Response doActivation(String activationToken) throws HarborException;
 }

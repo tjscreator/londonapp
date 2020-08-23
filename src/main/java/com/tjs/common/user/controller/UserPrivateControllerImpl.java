@@ -20,7 +20,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +32,7 @@ import com.tjs.common.aop.AccessLog;
 import com.tjs.common.aop.Authorization;
 import com.tjs.common.controller.AbstractController;
 import com.tjs.common.enums.ResponseCode;
+import com.tjs.common.logger.LoggerService;
 import com.tjs.common.operation.BaseOperation;
 import com.tjs.common.response.CommonResponse;
 import com.tjs.common.response.Response;
@@ -108,7 +111,15 @@ public class UserPrivateControllerImpl extends AbstractController<UserView> impl
 					ResponseCode.INVALID_REQUEST.getMessage());
 		}
 		UserView.isValidUpdateDetails(userView);
-		return userOperation.doUpdate(userView);
+		try {
+			return userOperation.doUpdate(userView);
+		} catch (DataIntegrityViolationException dataIntegrityViolationException) {
+			LoggerService.exception(dataIntegrityViolationException);
+			throw new HarborException(ResponseCode.ALREADY_EXIST.getCode(), "Email/Mobile already exists.");
+		} catch (ConstraintViolationException constraintViolationException) {
+			LoggerService.exception(constraintViolationException);
+			throw new HarborException(ResponseCode.ALREADY_EXIST.getCode(), "Email/Mobile already exists.");
+		}
 	}
 
 	@Override

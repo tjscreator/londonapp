@@ -500,7 +500,6 @@ create table tbluserrole(
 create index index_tbluserrole_fkuserid on tbluserrole(fkuserid);
 create index index_tbluserrole_fkroleid on tbluserrole(fkroleid);
 
-
 create table tbluserclient(
   	fkuserid bigint not null,
   	fkclientid bigint not null,
@@ -517,3 +516,7 @@ create index index_tbluserclient_fkclientid on tbluserclient(fkclientid);
  * 22/08/2020
  */
 ALTER TABLE tblclient ALTER COLUMN txtapikey TYPE varchar(64);
+
+alter table tblemailaccount drop column fkclientid;
+alter table tblemailcontent drop column fkclientid;
+alter table tbltransactionemail drop column lockversion;

@@ -254,7 +254,7 @@ public class UserView extends ArchiveView {
 			throw new HarborException(ResponseCode.DATA_IS_MISSING.getCode(),
 					ResponseCode.DATA_IS_MISSING.getMessage());
 		}
-		Validator.USER_MOBILE.isValid(new InputField(userView.getMobile(), DataType.STRING, RegexEnum.PHONE_NUMBER));
+		Validator.USER_MOBILE.isValid(new InputField(userView.getMobile(), DataType.STRING,15, RegexEnum.PHONE_NUMBER));
 		if (!StringUtils.isBlank(userView.getEmail())) {
 			Validator.USER_EMAIL_ID.isValid(new InputField(userView.getEmail(), DataType.STRING, 200, RegexEnum.EMAIL));
 		}
@@ -275,9 +275,6 @@ public class UserView extends ArchiveView {
 	public static void isValidUpdateDetails(UserView userView) throws HarborException {
 		Validator.USER_NAME
 				.isValid(new InputField(userView.getName(), DataType.STRING, 200, RegexEnum.ALPHABETS_WITH_SPACE));
-		if (!StringUtils.isBlank(userView.getEmail())) {
-			Validator.USER_EMAIL_ID.isValid(new InputField(userView.getEmail(), DataType.STRING, 200, RegexEnum.EMAIL));
-		}
 		if (userView.getUserAddressView() == null) {
 			throw new HarborException(ResponseCode.DATA_IS_MISSING.getCode(),
 					"Address details " + ResponseCode.DATA_IS_MISSING.getMessage());

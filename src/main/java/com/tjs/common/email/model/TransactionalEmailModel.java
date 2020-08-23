@@ -17,6 +17,7 @@ package com.tjs.common.email.model;
 
 import com.tjs.common.client.model.ClientModel;
 import com.tjs.common.model.ArchiveModel;
+import com.tjs.common.model.IdentifierModel;
 import com.tjs.harbor.email.enums.Status;
 
 /**
@@ -30,12 +31,11 @@ import com.tjs.harbor.email.enums.Status;
  *
  */
 
-public class TransactionalEmailModel extends ArchiveModel {
+public class TransactionalEmailModel extends IdentifierModel {
 
 	private static final long serialVersionUID = -4351538513633808259L;
 
 	private Long emailAccountId;
-	private Long lockVersion;
 	private String emailTo;
 	private String emailCc;
 	private String emailBcc;
@@ -47,23 +47,6 @@ public class TransactionalEmailModel extends ArchiveModel {
 	private String txtError;
 	private Long dateSend;
 	private Long dateSent;
-	private ClientModel clientModel;
-
-	public ClientModel getClientModel() {
-		return clientModel;
-	}
-
-	public void setClientModel(ClientModel clientModel) {
-		this.clientModel = clientModel;
-	}
-
-	public Long getLockVersion() {
-		return lockVersion;
-	}
-
-	public void setLockVersion(Long lockVersion) {
-		this.lockVersion = lockVersion;
-	}
 
 	public Long getEmailAccountId() {
 		return emailAccountId;

@@ -70,7 +70,7 @@ public interface UserPublicController extends Controller {
 	 * 
 	 * @param userView
 	 * @return
-	 * @throws SpaceezAPIException
+	 * @throws HarborException
 	 */
 	@RequestMapping(value = "/send-reset-link", method = RequestMethod.POST)
 	@ResponseBody
@@ -88,5 +88,16 @@ public interface UserPublicController extends Controller {
 	 */
 	@RequestMapping(value = "/reset-password-verification", method = RequestMethod.GET)
 	@ResponseBody
-	Response resetPasswordVerification(@RequestParam("resetPasswordVerification") String token) throws HarborException;
+	Response resetPasswordVerification(@RequestParam("resetPasswordVerificationToken") String token) throws HarborException;
+
+	/**
+	 * this api for activate user account.
+	 * 
+	 * @param activationToken
+	 * @return
+	 * @throws HarborException
+	 */
+	@RequestMapping(value = "/activate-account", method = RequestMethod.GET)
+	@ResponseBody
+	Response activateAccount(@RequestParam("activationToken") String activationToken) throws HarborException;
 }

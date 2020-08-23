@@ -1,10 +1,8 @@
 package com.tjs.common.user.view;
 
-import com.tjs.common.location.model.CountryModel;
 import com.tjs.common.location.view.CityView;
 import com.tjs.common.location.view.CountryView;
 import com.tjs.common.location.view.StateView;
-import com.tjs.common.view.IdNameView;
 import com.tjs.common.view.IdentifierView;
 
 public class UserAddressView extends IdentifierView {

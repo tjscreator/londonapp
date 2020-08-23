@@ -130,4 +130,13 @@ public interface UserOperation extends BaseOperation<UserView> {
 	 */
 	Response doRegister(UserView userView) throws HarborException;
 
+	/**
+	 * This method for activate user account.
+	 * 
+	 * @param activationToken
+	 * @return
+	 * @throws HarborException
+	 */
+	Response doActivateAccount(String activationToken) throws HarborException;
+
 }

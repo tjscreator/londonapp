@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.tjs.common.model.IdentifierModel;
+import com.tjs.common.model.Model;
 import com.tjs.common.validation.DataType;
 
 /**
@@ -29,7 +30,7 @@ import com.tjs.common.validation.DataType;
  * @since 24/11/2018
  *
  */
-public class SettingModel extends IdentifierModel {
+public class SettingModel implements Model {
 
 	private static final long serialVersionUID = 6653648434546572167L;
 	private String key;

@@ -305,22 +305,22 @@ public abstract class AbstractService<M extends Model> {
 	}
 
 	protected PageModel getResults(Criteria criteria, Integer startNo, Integer recordSize) {
-    	//long records = countRecord();
-    	/*long records = (Long) criteria.setProjection(Projections.rowCount()).uniqueResult();
-        criteria.setProjection(null);*/
-        criteria.setResultTransformer(Criteria.ROOT_ENTITY);
-        if (startNo != null && recordSize != null) {
-            criteria.setFirstResult(startNo);
-            criteria.setMaxResults(recordSize);
-        }
-        setOrder(criteria);
-        List<? extends M> results = criteria.list(); 
-        long records = 0l;
-        if(results != null) {
-        	records = results.size();
-        }
-        return PageModel.create(results, results.size());
-    }
+		// long records = countRecord();
+		long records = (Long) criteria.setProjection(Projections.rowCount()).uniqueResult();
+		criteria.setProjection(null);
+		criteria.setResultTransformer(Criteria.ROOT_ENTITY);
+		if (startNo != null && recordSize != null) {
+			criteria.setFirstResult(startNo);
+			criteria.setMaxResults(recordSize);
+		}
+		setOrder(criteria);
+		List<? extends M> results = criteria.list();
+//        long records = 0l;
+//        if(results != null) {
+//        	records = results.size();
+//        }
+		return PageModel.create(results, records);
+	}
 
 	/**
 	 * This is used to fetch data that using hql query that needs to be displayed on

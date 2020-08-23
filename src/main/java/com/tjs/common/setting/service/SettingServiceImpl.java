@@ -59,8 +59,9 @@ public class SettingServiceImpl extends AbstractService<SettingModel>
 	@Override
 	public void onStartUp() throws HarborException {
 		List<SettingModel> settingModelList = findAll();
-		for (SettingModel settingTemplateModel : settingModelList) {
-			SettingModel.getMAP().put(settingTemplateModel.getKey(), settingTemplateModel.getValue());
+//		settingModelList.stream().forEach(settingModel->System.out.println(settingModel.getKey()+"--->"+settingModel.getValue()));
+		for (SettingModel settingModel : settingModelList) {
+			SettingModel.getMAP().put(settingModel.getKey(), settingModel.getValue());
 		}
 	}
 

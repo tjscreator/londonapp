@@ -27,7 +27,7 @@
 		<property name="sendOtpDate" column="datesendotp" type="java.lang.Long" not-null="false"/>
 		<property name="clientAdmin" column="isclientadmin" type="boolean" not-null="true"/>
 		<property name="masterAdmin" column="ismasteradmin" type="boolean" not-null="true"/>
-		<many-to-one name="profilepic" entity-name="fileModel" column="fkprofilepicid" lazy="false" fetch="join" not-null="true" />
+		<many-to-one name="profilepic" entity-name="fileModel" column="fkprofilepicid" lazy="false" fetch="join" not-null="false" />
 		<set name="roleModels" cascade="none" table="tbluserrole" lazy="false" fetch="join" batch-size="20">
             <key>
                 <column name="fkuserid" not-null="true" />
@@ -76,7 +76,7 @@
 		<property name="sendOtpDate" column="datesendotp" type="java.lang.Long" not-null="false"/>
 		<property name="clientAdmin" column="isclientadmin" type="boolean" not-null="true"/>
 		<property name="masterAdmin" column="ismasteradmin" type="boolean" not-null="true"/>
-		<many-to-one name="profilepic" entity-name="fileModel" column="fkprofilepicid" lazy="false" fetch="join" not-null="true" />
+		<many-to-one name="profilepic" entity-name="fileModel" column="fkprofilepicid" lazy="false" fetch="join" not-null="false" />
 		<set name="roleModels" cascade="none" table="tbluserrole" lazy="false" fetch="join" batch-size="20">
             <key>
                 <column name="fkuserid" not-null="true" />
@@ -117,18 +117,11 @@
 		<property name="sendOtpDate" column="datesendotp" type="java.lang.Long" not-null="false"/>
 		<property name="clientAdmin" column="isclientadmin" type="boolean" not-null="true"/>
 		<property name="masterAdmin" column="ismasteradmin" type="boolean" not-null="true"/>
-		<many-to-one name="profilepic" entity-name="fileModel" column="fkprofilepicid" lazy="false" fetch="join" not-null="true" />
+		<many-to-one name="profilepic" entity-name="fileModel" column="fkprofilepicid" lazy="false" fetch="join" not-null="false" />
 		<!-- COMON HBM FIELDS STARTS -->
 		<property name="active" column="isactive" type="boolean" not-null="true"/>
 		<property name="archive" column="isarchive" type="boolean" not-null="true"/>
 		<!-- COMON HBM FIELDS ENDS -->
-	</class>
-	<class entity-name="emailMobileUserModel" name="UserModel" table="tbluser"	dynamic-update="true" dynamic-insert="true">
-		<id name="id" column="pkid" type="java.lang.Long">
-			<generator class="identity" />
-		</id>
-		<property name="email" column="txtemail" type="java.lang.String" not-null="false" length="200" />
-		<property name="mobile" column="txtmobile" type="java.lang.String" not-null="false" length="15" />
 	</class>
 	
 </hibernate-mapping>

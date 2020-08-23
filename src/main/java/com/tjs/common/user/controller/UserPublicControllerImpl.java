@@ -19,7 +19,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,11 +29,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.tjs.common.aop.AccessLog;
 import com.tjs.common.enums.ResponseCode;
+import com.tjs.common.logger.LoggerService;
 import com.tjs.common.response.Response;
 import com.tjs.common.user.operation.UserOperation;
 import com.tjs.common.user.view.UserView;
 import com.tjs.common.util.Utility;
+import com.tjs.common.validation.DataType;
+import com.tjs.common.validation.InputField;
 import com.tjs.common.validation.RegexEnum;
+import com.tjs.common.validation.Validator;
 import com.tjs.harbor.exception.HarborException;
 
 /**
@@ -57,8 +63,12 @@ public class UserPublicControllerImpl implements UserPublicController {
 
 	private boolean validateLoginDetails(UserView userView) throws HarborException {
 		if (StringUtils.isBlank(userView.getLoginId())) {
-			throw new HarborException(ResponseCode.INVALID_EMAIL_OR_MOBILE_NUMBER.getCode(),
-					ResponseCode.INVALID_EMAIL_OR_MOBILE_NUMBER.getMessage());
+			throw new HarborException(ResponseCode.DATA_IS_MISSING.getCode(),
+					"Login Id " + ResponseCode.DATA_IS_MISSING.getMessage());
+		}
+		if (StringUtils.isBlank(userView.getPassword())) {
+			throw new HarborException(ResponseCode.DATA_IS_MISSING.getCode(),
+					"Password " + ResponseCode.DATA_IS_MISSING.getMessage());
 		}
 		boolean isLoginThroughEmail = false;
 		if (Utility.isValidPattern(userView.getLoginId(), RegexEnum.EMAIL.getValue())) {
@@ -81,7 +91,15 @@ public class UserPublicControllerImpl implements UserPublicController {
 					ResponseCode.INVALID_REQUEST.getMessage());
 		}
 		UserView.isValidRegistrationDetails(userView);
-		return userOperation.doRegister(userView);
+		try {
+			return userOperation.doRegister(userView);
+		} catch (DataIntegrityViolationException dataIntegrityViolationException) {
+			LoggerService.exception(dataIntegrityViolationException);
+			throw new HarborException(ResponseCode.ALREADY_EXIST.getCode(), "Email/Mobile already exists.");
+		} catch (ConstraintViolationException constraintViolationException) {
+			LoggerService.exception(constraintViolationException);
+			throw new HarborException(ResponseCode.ALREADY_EXIST.getCode(), "Email/Mobile already exists.");
+		}
 	}
 
 	@Override
@@ -91,18 +109,30 @@ public class UserPublicControllerImpl implements UserPublicController {
 			throw new HarborException(ResponseCode.INVALID_REQUEST.getCode(),
 					ResponseCode.INVALID_REQUEST.getMessage());
 		}
-		boolean isLoginThroughEmail = validateLoginDetails(userView);
+//		boolean isLoginThroughEmail = validateLoginDetails(userView);
+		boolean isLoginThroughEmail = true;
+		Validator.USER_EMAIL_ID.isValid(new InputField(userView.getLoginId(), DataType.STRING, 200, RegexEnum.EMAIL));
 		return userOperation.doSendResetLink(userView, isLoginThroughEmail);
 	}
 
 	@Override
 	@AccessLog
-	public Response resetPasswordVerification(@RequestParam("resetPasswordVerification") String token)
+	public Response resetPasswordVerification(@RequestParam("resetPasswordVerificationToken") String token)
 			throws HarborException {
 		if (StringUtils.isBlank(token)) {
 			throw new HarborException(ResponseCode.INVALID_REQUEST.getCode(),
 					ResponseCode.INVALID_REQUEST.getMessage());
 		}
 		return userOperation.doResetPasswordVerification(token);
+	}
+
+	@Override
+	@AccessLog
+	public Response activateAccount(@RequestParam("activationToken") String activationToken) throws HarborException {
+		if (StringUtils.isBlank(activationToken)) {
+			throw new HarborException(ResponseCode.INVALID_REQUEST.getCode(),
+					ResponseCode.INVALID_REQUEST.getMessage());
+		}
+		return userOperation.doActivateAccount(activationToken);
 	}
 }

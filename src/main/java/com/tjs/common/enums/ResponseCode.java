@@ -39,14 +39,13 @@ public enum ResponseCode implements Serializable {
 	LOGGED_OUT_SUCCESSFUL(1010, "You have successfully logged out."), OTP_SENT(1011, "Otp sent"),
 	REGISTER_SUCCESSFULLY_USERID_PASSWORD_WOULD_BE_MESSEGED(1012,
 			"Registration is successful, you will get your login details along with the password on your registered mobile number"),
-	
 	// Any code above 2000 is an error code.
 	INTERNAL_SERVER_ERROR(2000, "Oops, Something went wrong! Please try again."),
 	INVALID_REQUEST(2001, "Invalid request."), DATA_IS_MISSING(2002, "is mandatory."),
 	MAX_LENGTH_EXCEED(2003, "characters are allowed"), INVALID_JSON(2004, "Invalid json format."),
 	NO_DATA_FOUND(2005, "No data found."), UNABLE_TO_UPLOAD_FILE(2006, "Unable to upload a file."),
 	UNABLE_TO_DOWNLOAD_FILE(2007, "Unable to download a file."), DELETED_USER(2008, "Your account had been deleted."),
-	EMAIL_VERIFICATION(2009, "Please verify your email account to continue."),
+	PLEASE_VERIFY_YOUR_ACCOUNT(2009, "Please verify your account to continue."),
 	DUPLICATE_EMAIL_USER(2010, "You are already registered."), INVALID_TOKEN(2011, "Invalid Token."),
 	EXPIRED_TOKEN(2012, "Link is expired or have already been used"),
 	DUPLICATE_PASSWORD_USER(2013,

@@ -40,7 +40,7 @@ public enum ModuleEnum implements EnumType {
 			RightsEnum.LIST)),
 	APP(6, "App", Arrays.asList(AppEnum.MASTER_ADMIN), Arrays.asList()),
 	SMS(7, "SMS", Arrays.asList(AppEnum.MASTER_ADMIN), Arrays.asList()),
-	EMAIL(8, "Sms Default Content", Arrays.asList(AppEnum.MASTER_ADMIN),
+	EMAIL(8, "Email", Arrays.asList(AppEnum.MASTER_ADMIN),
 			Arrays.asList());
 	private final int id;
 	private final String name;

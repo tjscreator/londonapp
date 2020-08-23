@@ -8,7 +8,7 @@
 		<id name="id" column="pkid" type="java.lang.Long">
 			<generator class="identity" />
 		</id>
-		<many-to-one name="userModel" entity-name="extraLightUserModel" column="fkuserid" lazy="false" fetch="join" not-null="true" />
+		<many-to-one name="userModel" entity-name="lightUserModel" column="fkuserid" lazy="false" fetch="join" not-null="true" />
 		<property name="session" column="txtsession" type="java.lang.String" length="100" not-null="true"/>
 		<property name="updateDate" column="dateupdate" type="java.lang.Long" not-null="true"/>
 		<property name="createDate" column="datecreate" type="java.lang.Long" not-null="true"/>
@@ -19,7 +19,7 @@
 		<property name="cookieCreateDate" column="datedevicecookie" type="java.lang.Long" not-null="true"/>
 		<property name="twoFactorSession" column="istwofactorsession" type="boolean" not-null="true" />
 		<property name="resetPasswordSession" column="isresetpasswordsession" type="boolean" not-null="true" />
-		<property name="otpSession" column="isotpsession" type="boolean" not-null="true" />
+		<property name="otpSession" column="isverifyotpsession" type="boolean" not-null="true" />
 	</class>
 	
 	<!-- <class entity-name="getUserSessionModel" name="UserSessionModel" table="tblusersession" dynamic-update="true" dynamic-insert="true">
